@@ -321,5 +321,5 @@ class grn_register_report(report_sxw.rml_parse):
   
 
 report_sxw.report_sxw('report.grn.register.report', 'stock.picking', 
-			'addons/kg_store_reports/report/grn_register_report.rml', 
+			'addons/kg_reports/warehouse/report/grn_register_report.rml', 
 			parser=grn_register_report, header = False)
