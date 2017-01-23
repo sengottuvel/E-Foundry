@@ -271,7 +271,7 @@ class mains_closing_stock_report(report_sxw.rml_parse):
   
 
 report_sxw.report_sxw('report.mains.closing.stock.report', 'stock.picking', 
-			'addons/kg_store_reports/report/mains_closing_stock_report.rml', 
+			'addons/kg_reports/warehouse/report/mains_closing_stock_report.rml', 
 			parser=mains_closing_stock_report, header = False)
 			
 			
