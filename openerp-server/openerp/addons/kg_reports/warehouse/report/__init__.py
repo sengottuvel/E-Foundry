@@ -1,3 +1,3 @@
-import dep_issue_register
+import kg_dep_issue
 import grn_register_report
 import mains_closing_stock_report
