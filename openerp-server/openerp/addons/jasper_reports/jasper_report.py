@@ -227,7 +227,6 @@ class Report:
 			'password': 'Mko0(ijN',
 			'subreports': subreportDataFiles,
 		}
-		print "----------------------------------------------------777777777777",connectionParameters
 		parameters = {
 			'STANDARD_DIR': self.report.standardDirectory(),
 			'REPORT_LOCALE': locale,
