@@ -151,7 +151,7 @@ class product_uom(osv.osv):
 	_order = "name"
 	_columns = {
 		'company_id': fields.many2one('res.company', 'Company Name',readonly=True),
-		'name': fields.char('Name', size=64, required=True, translate=True),
+		'name': fields.char('Unit Of Measure Name', size=64, required=True, translate=True),
 		'code': fields.char('Code',size=4),
 		'category_id': fields.many2one('product.uom.categ', 'Category', ondelete='cascade',
 			help="Conversion between Units of Measure can only occur if they belong to the same category. The conversion will be made based on the ratios."),
@@ -380,7 +380,7 @@ class product_category(osv.osv):
 	_name = "product.category"
 	_description = "Product Category"
 	_columns = {
-		'name': fields.char('Name', size=64, required=True, translate=True, select=True),
+		'name': fields.char('Product Category Name', size=64, required=True, translate=True, select=True),
 		'complete_name': fields.function(_name_get_fnc, type="char", string='Name'),
 		'parent_id': fields.many2one('product.category','Parent Category', select=True, ondelete='cascade', domain="[('flag_isparent','=',True)]"),
 		'child_id': fields.one2many('product.category', 'parent_id', string='Child Categories'),
@@ -507,7 +507,7 @@ class product_template(osv.osv):
 	_description = "Product Template"
 
 	_columns = {
-		'name': fields.char('Name', required=True, translate=True, select=True),
+		'name': fields.char('Product Name', required=True, translate=True, select=True),
 		'product_manager': fields.many2one('res.users','Product Manager'),
 		'description': fields.text('Description',translate=True),
 		'description_purchase': fields.text('Purchase Description',translate=True),

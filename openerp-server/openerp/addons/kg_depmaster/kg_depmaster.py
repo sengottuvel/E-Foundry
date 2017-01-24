@@ -54,7 +54,7 @@ class kg_depmaster(osv.osv):
 		return res		
 		
 	_columns = {
-		'name': fields.char('Name', size=128, required=True,readonly=True,states={'draft':[('readonly',False)]}),
+		'name': fields.char('Department Name', size=128, required=True,readonly=True,states={'draft':[('readonly',False)]}),
 		'dep_name': fields.char('Code', size=4, required=True, translate=True,readonly=True,states={'draft':[('readonly',False)]}),
 		'consumerga': fields.many2one('account.account', 'Consumer GL/AC', size=64, translate=True, select=2),
 		'cost': fields.many2one('account.account','Cost Centre', size=64, translate=True, select=2),

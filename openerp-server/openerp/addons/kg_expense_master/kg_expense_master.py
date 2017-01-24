@@ -47,7 +47,7 @@ class kg_expense_master(osv.osv):
 	
 	_columns = {
 			
-		'name': fields.char('Name', size=128, required=True, select=True),
+		'name': fields.char('Expense Name', size=128, required=True, select=True),
 		'company_id': fields.many2one('res.company', 'Company Name',readonly=True),
 		'code': fields.char('Code', size=128, required=True),
 		'category': fields.selection([('po','PO'),('so','Service Order'),('grn','GRN'),('wo','WO'),('gen_exp','General Expenses'),('all','All'),('other','Others')],'Category'),

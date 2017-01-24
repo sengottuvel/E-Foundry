@@ -45,7 +45,7 @@ class kg_payment_master(osv.osv):
 	_description = "Payment Masters"
 	_columns = {
 		
-		'name': fields.char('Name', size=128, required=True),
+		'name': fields.char('Payment Name', size=128, required=True),
 		'code':fields.char('Code',size=4),
 		'active':fields.boolean('Active'),
 		'creation_date':fields.datetime('Created Date',readonly=True),
@@ -182,7 +182,7 @@ class kg_delivery_master(osv.osv):
 	_description = "Delivery Masters"
 	_columns = {
 		
-		'name': fields.char('Name', size=128, required=True),
+		'name': fields.char('Delivery Name', size=128, required=True),
 		'code':fields.char('Code',size=4),
 		'active':fields.boolean('Active'),
 		'creation_date':fields.datetime('Created Date',readonly=True),
@@ -316,7 +316,7 @@ class kg_brand_master(osv.osv):
 	_description = "Brand Masters"
 	_columns = {
 		
-		'name': fields.char('Name', size=128, required=True),
+		'name': fields.char('Brand Name', size=128, required=True),
 		'code':fields.char('Code',size=4,required=True),
 		'active':fields.boolean('Active'),
 		'creation_date':fields.datetime('Created Date',readonly=True),

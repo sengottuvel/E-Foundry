@@ -64,7 +64,7 @@ class kg_outwardmaster(osv.osv):
 	_description = "Outward Master"
 	_columns = {
 		
-		'name': fields.char('Name', size=128, required=True, select=True,readonly=False,states={'approved':[('readonly',True)]}),
+		'name': fields.char('Outward Name', size=128, required=True, select=True,readonly=False,states={'approved':[('readonly',True)]}),
 		'code':fields.char('Code',size=4),
 		'creation_date':fields.datetime('Created Date',readonly=True),
 		'bill': fields.boolean('Bill Indication',readonly=False,states={'approved':[('readonly',True)]}),

@@ -196,7 +196,7 @@ class res_partner(osv.osv, format_address):
 
 	_order = "name"
 	_columns = {
-		'name': fields.char('Name', size=128, required=True, select=True),
+		'name': fields.char('Supplier Name', size=128, required=True, select=True),
 		'contact_person':fields.char('Contact Person', size=128),
 		'date': fields.date('Date', select=1),
 		'title': fields.many2one('res.partner.title', 'Title'),
