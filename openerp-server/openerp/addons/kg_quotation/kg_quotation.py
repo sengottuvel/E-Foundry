@@ -340,7 +340,6 @@ class kg_quotation_requisition_header(osv.osv):
 				for quotes in lines.pi_line_ids:
 					quo_lin_obj.write(cr,uid,quotes.id,{'state':'approved'})
 				line_obj.write(cr,uid,lines.id,{'state':'approved'})
-			stop
 			rfq_ven_rec = rfq_ven_obj.browse(cr, uid, custom.rfq_no_id.id)
 			rfq_ven_obj.write(cr, uid, [custom.rfq_no_id.id], {'state':'rfq_approved'})
 			self.write(cr, uid, ids, {'state':'approved'})
