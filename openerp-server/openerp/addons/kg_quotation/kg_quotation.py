@@ -195,6 +195,13 @@ class kg_rfq_vendor_selection(osv.osv):
 						for prod in rfq_pi_id:
 							rfq_pi_rec = rfq_pi_obj.browse(cr, uid, prod, context)
 							rfq_pi_obj.write(cr, uid, [rfq_pi_rec.id], {'state':'approved'})
+							pro_price = """ select price from ch_supplier_details where supplier_id=%s and partner_id = %s""" %(rfq_pi_rec.product_id.id,vendor_rec.partner_id.id)
+							cr.execute(pro_price)
+							data = cr.dictfetchall()
+							if data:
+								price_val = data[0]['price']
+							else:
+								price_val = 0
 							merge_vals = {
 								'name': 'name',
 								'rfq_no_id': custom.id ,
@@ -210,7 +217,7 @@ class kg_rfq_vendor_selection(osv.osv):
 								'partner_id':vendor_rec.partner_id.id,
 								'partner_address': vendor_rec.partner_address,
 								'partner_name': vendor_rec.partner_name,	
-								'vendors_price': 0,
+								'vendors_price': price_val,
 																
 							}
 							quote_pi_id = quote_pi_obj.create(cr, uid, merge_vals)							
@@ -333,6 +340,7 @@ class kg_quotation_requisition_header(osv.osv):
 				for quotes in lines.pi_line_ids:
 					quo_lin_obj.write(cr,uid,quotes.id,{'state':'approved'})
 				line_obj.write(cr,uid,lines.id,{'state':'approved'})
+			stop
 			rfq_ven_rec = rfq_ven_obj.browse(cr, uid, custom.rfq_no_id.id)
 			rfq_ven_obj.write(cr, uid, [custom.rfq_no_id.id], {'state':'rfq_approved'})
 			self.write(cr, uid, ids, {'state':'approved'})
