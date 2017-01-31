@@ -82,6 +82,7 @@
 			 <field name="quot_ref_no" class="aplhanum_expect"  />
 			 <field name="delivery_address"/>
 			 <field name="bill_type" required="1"/>
+			 <field name="advance_percen" attrs="{'invisible': [('bill_type','!=','advance')],'required': [('bill_type','=','advance')]}"/>
 			 <field name="payment_mode" />
 			 <field name="term_warranty" invisible='1'/>
 			 <field name="revision" invisible="1"/>
@@ -285,7 +286,7 @@
 			 <field name="quot_ref_no" />
 			 <field name="delivery_address"/>
 			 <field name="bill_type" required="1"/>
-			 <field name="payment_mode" />
+			 <field name="payment_mode"/>
 			 <field name="term_warranty" />
 			 <field name="purpose" required="1"/>
 			 <field name="revision" invisible="1"/>
