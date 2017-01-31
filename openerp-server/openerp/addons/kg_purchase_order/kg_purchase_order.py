@@ -295,8 +295,6 @@ class kg_purchase_order(osv.osv):
 			dep_rec = user_rec.dep_name
 			location = dep_rec.main_location.id
 			value = {'location_id': location}
-			print "--------dep_rec---------",dep_rec
-			print "--------location---------",location			
 		return {'value':value}
 		
 	def confirm_po(self,cr,uid,ids, context=None):
