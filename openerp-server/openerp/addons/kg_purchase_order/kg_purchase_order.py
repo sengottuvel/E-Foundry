@@ -246,21 +246,13 @@ class kg_purchase_order(osv.osv):
 		
 	def onchange_date_order(self, cr, uid, ids, date_order):
 		today_date = today.strftime('%Y-%m-%d')
-		back_list = []
-		today_new = today.date()
-		bk_date = date.today() - timedelta(days=2)
-		back_date = bk_date.strftime('%Y-%m-%d')
-		d1 = today_new
-		d2 = bk_date
-		delta = d1 - d2
-		for i in range(delta.days + 1):
-			bkk_date = d1 - timedelta(days=i)
-			backk_date = bkk_date.strftime('%Y-%m-%d')
-			back_list.append(backk_date)
-		if date_order <= back_date:
+
+		cr.execute("""SELECT CURRENT_DATE;""")
+		data = cr.fetchall();
+		if date_order > data[0][0]:
 			raise osv.except_osv(
-				_('Warning'),
-				_('PO Entry is not allowed!'))
+					_('Warning'),
+					_('PO Date should be less than or equal to current date!'))	
 		return True
 		
 	def onchange_frieght_flag(self, cr, uid, ids, term_freight):
@@ -429,6 +421,7 @@ class kg_purchase_order(osv.osv):
 		if user_obj:
 			user_rec = self.pool.get('res.users').browse(cr,uid,user_obj[0])
 		for item in obj.order_line:
+			cr.execute("""update purchase_order_line set pending_qty = %s where id = %s""" %(item.product_qty,item.id))
 			price_sql = """ 
 						select line.price_unit
 						from purchase_order_line line
