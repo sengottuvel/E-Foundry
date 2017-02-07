@@ -92,7 +92,7 @@ def db_list(req, force=False):
 	d = h.split('.')[0]
 	r = openerp.tools.config['dbfilter'].replace('%h', h).replace('%d', d)
 	dbs = [i for i in dbs if re.match(r, i)]
-	dbs = ['foundary']
+	dbs = ['foundry']
 	return dbs
 
 def db_monodb_redirect(req):

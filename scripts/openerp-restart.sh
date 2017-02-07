@@ -3,9 +3,9 @@
 py=/usr/bin/python
 erp=/OpenERP/E-Foundry/openerp-server
 kill=/bin/kill
-script=/OpenERP/E-Foundry
-ps_check=`ps aux | grep openerp-server | grep -v 'grep' | grep 'E-Foundry' | wc -l`
-pid=`ps aux | grep openerp-server | grep -v 'grep' | grep 'E-Foundry' | awk '{ print $2 }'`
+script=/OpenERP/E-Foundry/scripts
+ps_check=`ps aux | grep openerp-server | grep -v 'grep' | grep 'foundry' | wc -l`
+pid=`ps aux | grep openerp-server | grep -v 'grep' | grep 'foundry' | awk '{ print $2 }'`
 echo "Process ID  $pid"
 if [ $ps_check -gt 0 ]
 then
