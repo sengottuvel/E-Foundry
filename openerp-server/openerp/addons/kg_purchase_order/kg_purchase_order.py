@@ -31,10 +31,6 @@ class kg_purchase_order(osv.osv):
 	def _amount_line_tax(self, cr, uid, line, context=None):
 		logger.info('[KG OpenERP] Class: kg_purchase_order, Method: _amount_line_tax called...')
 		val = 0.0
-		new_amt_to_per = line.kg_discount / line.product_qty
-		amt_to_per = (line.kg_discount / (line.product_qty * line.price_unit or 1.0 )) * 100
-		kg_discount_per = line.kg_discount_per
-		tot_discount_per = amt_to_per + kg_discount_per
 		qty = 0
 		if line.price_type == 'per_kg':
 			if line.product_id.uom_conversation_factor == 'two_dimension':
@@ -49,9 +45,16 @@ class kg_purchase_order(osv.osv):
 				qty = line.product_qty
 		else:
 			qty = line.product_qty
+			
+		new_amt_to_per = line.kg_discount / qty
+		amt_to_per = (line.kg_discount / (qty * line.price_unit or 1.0 )) * 100
+		kg_discount_per = line.kg_discount_per
+		tot_discount_per = amt_to_per 
+
 		for c in self.pool.get('account.tax').compute_all(cr, uid, line.taxes_id,
 			line.price_unit * (1-(tot_discount_per or 0.0)/100.0), qty, line.product_id,
 				line.order_id.partner_id)['taxes']:
+			 
 			val += c.get('amount', 0.0)
 		return val	
 	
@@ -82,14 +85,14 @@ class kg_purchase_order(osv.osv):
 				val1 += line.price_subtotal
 				val += self._amount_line_tax(cr, uid, line, context=context)
 				val3 += tot_discount
-				val4 += line.tot_price
+				val4 += line.product_qty * line.price_unit or 0
 				val5 += line.price_subtotal
-			res[order.id]['line_amount_total']= (round(val4,0))
+			res[order.id]['line_amount_total']= (round(val5,0))
 			res[order.id]['other_charge']= other_charges_amt or 0
 			res[order.id]['amount_tax']=(round(val,0))
-			res[order.id]['amount_untaxed']=(round(val5,0))
+			res[order.id]['amount_untaxed']=(round(val4,0))
 			res[order.id]['discount']=(round(val3,0))
-			res[order.id]['amount_total']=(res[order.id]['amount_untaxed'] + res[order.id]['amount_tax'] + res[order.id]['other_charge'] or 0)
+			res[order.id]['amount_total']=(round(val5,0)) - (round(val,0))
 		return res
 		
 	def _get_order(self, cr, uid, ids, context=None):
