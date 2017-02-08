@@ -2,7 +2,7 @@ import xmlrpclib
 
 username = 'admin' #the user
 pwd = 'admin'      #the password of the user
-dbname = 'foundary'    #the database
+dbname = 'foundry'    #the database
 
 # Server Connectivity
 
