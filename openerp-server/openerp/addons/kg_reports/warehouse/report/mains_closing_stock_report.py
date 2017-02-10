@@ -95,8 +95,8 @@ class mains_closing_stock_report(report_sxw.rml_parse):
 			   left JOIN product_category pc ON (pc.id=pt.categ_id)
 
 			   
-			   where sm.product_qty != 0 and sm.state=%s and sm.move_type =%s and sm.date::date <=%s '''+ where_sql + major + product + pro_type +'''
-			   group by sm.product_id,pc.name,pt.categ_id,pt.name''',('done',lo_type,form['date']))
+			   where sm.product_qty != 0 and sm.state=%s and sm.date::date <=%s and (sm.location_dest_id =%s or sm.location_id = %s) '''+ where_sql + major + product + pro_type +'''
+			   group by sm.product_id,pc.name,pt.categ_id,pt.name''',('done',form['date'],location,location))
 				   
 			   
 		data=self.cr.dictfetchall()

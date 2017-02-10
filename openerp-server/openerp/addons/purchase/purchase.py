@@ -1069,13 +1069,16 @@ class purchase_order_line(osv.osv):
 		taxes = account_tax.browse(cr, uid, map(lambda x: x.id, product.supplier_taxes_id))
 		fpos = fiscal_position_id and account_fiscal_position.browse(cr, uid, fiscal_position_id, context=context) or False
 		taxes_ids = account_fiscal_position.map_tax(cr, uid, fpos, taxes)
-		pro_price = """ select price from ch_supplier_details where supplier_id=%s and partner_id = %s""" %(product_id,partner_id)
-		cr.execute(pro_price)
-		data = cr.dictfetchall()
-		if data:
-			price_val = data[0]['price']
+		if partner_id:
+			pro_price = """ select price from ch_supplier_details where supplier_id=%s and partner_id = %s""" %(product_id,partner_id)
+			cr.execute(pro_price)
+			data = cr.dictfetchall()
+			if data:
+				price_val = data[0]['price']
+			else:
+				price_val = 0.0	
 		else:
-			price_val = 0.0	
+			raise osv.except_osv(_(' Warning!!'),_("Please select the supplier name!") )
 		res['value'].update({'price_unit': price_val, 'taxes_id': taxes_ids})
 		return res
 
