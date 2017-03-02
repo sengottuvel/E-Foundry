@@ -55,12 +55,12 @@
 					<notebook>
 						<page string="Outward Details" attrs="{'invisible':[('mode','in',['frm_indent']),('indent_flag','=',False)]}">
 						<field colspan="4" string="Gate Pass Line" mode="tree" name="gate_line" nolabel="1" widget="one2many_list" context="{'mode':mode}">									 
-							<tree string="Gate Pass Line"> 
-								<field name="product_id"/>
-								<field name="brand_id"/>
+							<tree string="Gate Pass Line" editable='bottom'> 
+								<field name="product_id" readonly='1'/>
+								<field name="brand_id" readonly='1'/>
 								<field name="serial_no" invisible='1'/>
-								<field name="ser_no"/>
-								<field name="uom"/>
+								<field name="ser_no" readonly='1'/>
+								<field name="uom" readonly='1'/>
 								<field name="qty"/>
 								<field name="note"/>
 								<field name="mode" invisible="1"/>

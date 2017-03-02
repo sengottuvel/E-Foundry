@@ -255,11 +255,11 @@
 							<field name="vendor_5_name" readonly="1" nolabel="1" colspan="2" attrs="{'invisible':[('vendor_5_flag','=',False)]}"/>						
 						<newline/>
 						<label string="" colspan="2"/>
-							<button name="select_vendor_1" string="Select All" type="object" icon="gtk-execute" colspan="2" />
-							<button name="select_vendor_2" string="Select All" type="object" icon="gtk-execute" colspan="2" attrs="{'invisible':[('vendor_2_flag','=',False)]}"/>
-							<button name="select_vendor_3" string="Select All" type="object" icon="gtk-execute" colspan="2" attrs="{'invisible':[('vendor_3_flag','=',False)]}"/>
-							<button name="select_vendor_4" string="Select All" type="object" icon="gtk-execute" colspan="2" attrs="{'invisible':[('vendor_4_flag','=',False)]}"/>
-							<button name="select_vendor_5" string="Select All" type="object" icon="gtk-execute" colspan="2" attrs="{'invisible':[('vendor_5_flag','=',False)]}"/>						
+							<button name="select_vendor_1" string="Select All" type="object" icon="gtk-execute" colspan="2" attrs="{'invisible':[('state','=','po_generate')]}"/>
+							<button name="select_vendor_2" string="Select All" type="object" icon="gtk-execute" colspan="2" attrs="{'invisible':['|',('state','=','po_generate'),('vendor_2_flag','=',False)]}"/>
+							<button name="select_vendor_3" string="Select All" type="object" icon="gtk-execute" colspan="2" attrs="{'invisible':['|',('state','=','po_generate'),('vendor_3_flag','=',False)]}"/>
+							<button name="select_vendor_4" string="Select All" type="object" icon="gtk-execute" colspan="2" attrs="{'invisible':['|',('state','=','po_generate'),('vendor_4_flag','=',False)]}"/>
+							<button name="select_vendor_5" string="Select All" type="object" icon="gtk-execute" colspan="2" attrs="{'invisible':['|',('state','=','po_generate'),('vendor_5_flag','=',False)]}"/>						
 						<newline/>
 						<field name="line_ids" nolabel="1" colspan="2" >
 						   <tree string="RFQ Lines" create="false" delete="false" >
@@ -611,8 +611,8 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 
-<!--
 
+<!--
         <record forcecreate="1" id="seq_kg_rfq_vendor_selection_n" model="ir.sequence.type"> 
 			<field name="name">KG RFQ Vendor Selection</field>
 			<field name="code">kg.rfq.vendor.selection</field>
@@ -625,8 +625,8 @@
 			  <field name="prefix">RFQ/%(year)s /</field>
 			  <field name="reset_sequence">yearly_reset</field>
 		</record>		
--->
 		
+-->
 		<!-- Sequence Number Setting Ends Here -->
 		
 		<menuitem id="menu_kg_quotation_header" parent="base.menu_purchase_root" name="Quotation" sequence="1" />
