@@ -82,7 +82,7 @@
 		
 		<field name="city" position="replace">
 		<field name="city" invisible="1"/>
-		<field name="landmark" class="aplhanum_expect" placeholder="Landmark" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
+		<field name="landmark" placeholder="Landmark" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
 		</field>
 		
 		<field name="category_id" position="replace">

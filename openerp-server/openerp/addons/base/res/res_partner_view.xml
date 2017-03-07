@@ -140,7 +140,7 @@
                                 attrs="{'invisible': [('is_company','=', True)]}"/>
                               <field name="mobile" class="aplhanum_expect" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))],'required': [('company_type','=', 'individual')]}"/>
                               <field name="fax" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}" invisible='1'/>
-                              <field name="street" class="aplhanum_expect" string="Street1" placeholder="Street1..."  attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
+                              <field name="street" string="Street1" placeholder="Street1..."  attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
                               <field name="city" placeholder="City" style="width: 40%%" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
                               <field name="phone" class="aplhanum_expect" placeholder="e.g. +32.81.81.37.00" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
                             <label for="type" attrs="{'invisible': [('parent_id','=', False)]}"/>
@@ -160,7 +160,7 @@
                         <group>
                             <field name="email" class="email_validation" widget="email" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
                             <field name="website" class="aplhanum_expect" widget="url" placeholder="e.g. www.openerp.com" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
-                            <field name="street2" class="aplhanum_expect" placeholder="Street2..." attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
+                            <field name="street2" placeholder="Street2..." attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
                             <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
                             <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True}' attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
                             <field name="title" domain="[('domain', '=', 'contact')]"
