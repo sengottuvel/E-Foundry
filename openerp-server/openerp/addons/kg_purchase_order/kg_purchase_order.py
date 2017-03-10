@@ -417,15 +417,6 @@ class kg_purchase_order(osv.osv):
 						raise osv.except_osv(
 							_('Warning'),
 							_('%s price is exceeding last purchase price. It should be approved by Admin User'%(item.product_id.name)))
-		if obj.payment_mode.term_category == 'advance':
-			cr.execute("""select * from kg_supplier_advance where state='confirmed' and po_id= %s"""  %(str(ids[0])))
-			data = cr.dictfetchall()
-			if not data:
-				raise osv.except_osv(
-					_('Warning'),
-					_('Advance is mandate for this PO'))
-			else:
-				pass		
 		text_amount = number_to_text_convert_india.amount_to_text_india(obj.amount_total,"INR:")
 		self.write(cr,uid,ids[0],{'text_amt':text_amount})
 		line_obj = self.pool.get('purchase.order.line')
