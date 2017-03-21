@@ -364,9 +364,10 @@ class kg_general_grn(osv.osv):
 				product_uom = line.product_id.uom_id.id
 				product_qty = line.grn_qty
 				price_unit = line.price_subtotal / product_qty
-			if grn_entry.grn_line[0].product_id.stockable == 'yes':									
+			if grn_entry.grn_line[0].product_id.stockable == 'yes':		
 				stock_move_obj.create(cr,uid,
 					{
+					'date':grn_entry.grn_date,
 					'general_grn_id':line.id,
 					'product_id': line.product_id.id,
 					'brand_id':line.brand_id.id,

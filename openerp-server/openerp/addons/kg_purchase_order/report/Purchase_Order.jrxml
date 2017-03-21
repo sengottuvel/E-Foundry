@@ -59,7 +59,6 @@ part.phone as phone,
 part.fax as fax,
 part.email as email,
 
-
 CASE WHEN comp.cin_no != '' THEN 'CIN NO :'
 ELSE ''
 END as cin_label,
@@ -79,9 +78,7 @@ partner.street2 as sup_street2,
 partner.contact_person as contact_person,
 partner.phone as sup_phone,
 partner.fax as sup_fax,
-CASE WHEN partner.email is null THEN '-'
-ELSE partner.email
-END as sup_email,
+partner.email as sup_email,
 CASE WHEN partner_city.name = null THEN ''
 ELSE partner_city.name
 END as sup_city,
@@ -353,7 +350,7 @@ where po.id = $P{po_id}]]>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{po_rate}]]></textFieldExpression>
 							</textField>
-							<textField>
+							<textField isBlankWhenNull="true">
 								<reportElement x="377" y="3" width="61" height="10"/>
 								<textElement>
 									<font size="8"/>
@@ -570,7 +567,7 @@ where po.id = $P{po_id}]]>
 				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="-1" y="0" width="554" height="83" backcolor="#A11D1D"/>
 			</rectangle>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="108" y="2" width="402" height="27" isPrintWhenDetailOverflows="true"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="145" y="2" width="343" height="27" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="2"/>
 				<textElement>
 					<font size="18" isBold="true"/>
@@ -592,7 +589,7 @@ where po.id = $P{po_id}]]>
 				<text><![CDATA[Unit-I]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="215" y="42" width="240" height="10"/>
+				<reportElement x="217" y="42" width="240" height="10"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -648,7 +645,7 @@ where po.id = $P{po_id}]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fax}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="360" y="55" width="100" height="14"/>
 				<textElement>
 					<font size="8"/>
@@ -661,11 +658,6 @@ where po.id = $P{po_id}]]>
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[E-mail]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="245" y="19" width="12" height="20"/>
-				<textElement/>
-				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="353" y="55" width="7" height="15"/>
@@ -762,7 +754,7 @@ where po.id = $P{po_id}]]>
 				<textFieldExpression><![CDATA[$F{sup_street2}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="42" y="53" width="60" height="12"/>
+				<reportElement x="42" y="51" width="60" height="12"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -806,7 +798,7 @@ where po.id = $P{po_id}]]>
 				</textElement>
 				<text><![CDATA[QR741A2]]></text>
 			</staticText>
-			<textField isBlankWhenNull="false">
+			<textField>
 				<reportElement x="219" y="87" width="93" height="20"/>
 				<textElement>
 					<font size="8"/>
@@ -824,7 +816,7 @@ where po.id = $P{po_id}]]>
 				<text><![CDATA[Please arrange to supply us the following]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="42" y="65" width="60" height="12"/>
+				<reportElement x="42" y="61" width="60" height="12"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>

@@ -248,6 +248,7 @@ class kg_gate_pass(osv.osv):
 					cr.execute(sql1)
 					stock_move_obj.create(cr,uid,
 						{
+						'date': rec.date,
 						'gp_id': rec.id,
 						'gp_line_id': rec.gate_line[0].id,
 						'product_id': product.id,
@@ -342,6 +343,7 @@ class kg_gate_pass(osv.osv):
 				'note':remark,
 				'ser_no':ser_no,
 				'serial_no':serial_no,
+				'mode':obj.mode,
 				}
 				
 				if pending_qty == 0:				

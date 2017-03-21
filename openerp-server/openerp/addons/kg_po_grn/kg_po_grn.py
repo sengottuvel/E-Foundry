@@ -896,6 +896,7 @@ class kg_po_grn(osv.osv):
 							price_unit =  line.price_subtotal / product_qty
 					stock_move_obj.create(cr,uid,
 						{
+						'date':grn_entry.grn_date,
 						'po_grn_id':grn_entry.id,
 						'po_grn_line_id':line.id,
 						'purchase_line_id':line.po_line_id.id,
@@ -976,6 +977,7 @@ class kg_po_grn(osv.osv):
 						pass	
 					stock_move_obj.create(cr,uid,
 						{
+						'date':grn_entry.grn_date,
 						'po_grn_id':grn_entry.id,
 						'po_grn_line_id':line.id,
 						'so_line_id':line.so_line_id.id,
@@ -1047,6 +1049,7 @@ class kg_po_grn(osv.osv):
 						pass_name = ''
 					stock_move_obj.create(cr,uid,
 						{
+						'date':grn_entry.grn_date,
 						'po_grn_id':grn_entry.id,
 						'po_grn_line_id':line.id,
 						'gp_line_id':pass_line_id,
