@@ -240,7 +240,7 @@ class kg_inwardmaster(osv.osv):
 					'indent_type':'production',
 					'state':'approved',
 					'name': seq_name[0],				
-					'dest_location_id': 326,					
+					'dest_location_id': 277,					
 					'src_location_id': 47					
 					})
 					kg_depindent_line.create(cr,uid,
