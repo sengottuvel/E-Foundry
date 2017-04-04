@@ -119,7 +119,7 @@
 	
 	
 	<para style="terp_header_Centre">[[ (data['form']['company']) ]]</para>
-    <para style="terp_header_Centre">[[ (data['form']['location']) ]]  Closing Stock As On : [[ (data['form']['date_from_ind']) ]]</para>
+    <para style="terp_header_Centre"><font color="white">Ellen IndustriesIndustries</font>[[ (data['form']['location']) ]]  Closing Stock As On : [[ (data['form']['date_from_ind']) ]]<font color="white">Ellen </font>Code no : QR755B2</para>
     <para style="terp_header_Centre">Product Category : [[ (data['form']['category']) or removeParentNode('para') ]]</para>
 
     <pto_header>

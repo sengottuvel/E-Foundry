@@ -553,7 +553,7 @@ where po.id = $P{po_id}]]>
 				<reportElement x="-1" y="0" width="554" height="802">
 					<printWhenExpression><![CDATA[(new Boolean(($F{status}.equals("draft"))) || new Boolean(($F{status}.equals("sent"))) || new Boolean(($F{status}.equals("confirmed"))))]]></printWhenExpression>
 				</reportElement>
-				<imageExpression><![CDATA["/OpenERP/E-Foundry/openerp-server/openerp/addons/kg_purchase_order/report/Draft.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["/home/dinesh/OpenERP_Projects/ellen_fc/openerp-server/openerp/addons/kg_purchase_order/report/Draft.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</background>
@@ -567,7 +567,7 @@ where po.id = $P{po_id}]]>
 				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="-1" y="0" width="554" height="83" backcolor="#A11D1D"/>
 			</rectangle>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="145" y="2" width="343" height="27" isPrintWhenDetailOverflows="true"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="145" y="2" width="275" height="27" isPrintWhenDetailOverflows="true"/>
 				<box leftPadding="2"/>
 				<textElement>
 					<font size="18" isBold="true"/>
@@ -668,8 +668,13 @@ where po.id = $P{po_id}]]>
 			</staticText>
 			<image>
 				<reportElement x="9" y="14" width="77" height="55"/>
-				<imageExpression><![CDATA["/OpenERP/E-Foundry/openerp-server/openerp/addons/web/static/src/img/ellen_logo.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["/home/dinesh/OpenERP_Projects/ellen_fc/openerp-server/openerp/addons/web/static/src/img/ellen_logo.jpg"]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement x="420" y="8" width="131" height="20"/>
+				<textElement/>
+				<text><![CDATA[Code no : QR741A2]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
