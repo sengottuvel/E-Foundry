@@ -65,7 +65,7 @@ class kg_po_grn(osv.osv):
 				val4 += line.tot_price
 			tax_am = val + tax_amt
 			val1 = val1 + vals
-			res[order.id]['line_amount_total']= ((round(val1 + res[order.id]['other_charge'] + tax_am,0)) - (round(val3,0)))
+			res[order.id]['line_amount_total']= ((round(val1 + tax_am,0)) - (round(val3,0)))
 			res[order.id]['other_charge']=(round(po_charges,0))
 			res[order.id]['amount_tax']=(round(tax_am,0))
 			res[order.id]['additional_charge']=(round(vals,0))
@@ -1659,6 +1659,17 @@ class kg_po_exp_batch(osv.osv):
 		
 		
 	}
+	
+	def default_get(self, cr, uid, fields, context=None):
+		if context['exp_days']:
+			prod_rec = self.pool.get('product.product').browse(cr,uid,context['exp_days'])
+			if prod_rec.flag_expiry_alert == True:
+				prod_rec = self.pool.get('product.product').browse(cr,uid,context['exp_days'])
+				context['exp_days'] = prod_rec.self_life_days
+			else:
+				context['exp_days'] = 0
+		return context	
+	
 	def _check_values(self, cr, uid, ids, context=None):
 		entry = self.browse(cr,uid,ids[0])
 		

@@ -33,7 +33,7 @@ class kg_general_grn(osv.osv):
 		new_amt_to_per = line.kg_discount or 0.0 / line.grn_qty
 		amt_to_per = (line.kg_discount / (line.grn_qty * line.price_unit or 1.0 )) * 100
 		kg_discount_per = line.kg_discount_per
-		tot_discount_per = amt_to_per
+		tot_discount_per = amt_to_per 
 		for c in self.pool.get('account.tax').compute_all(cr, uid, line.grn_tax_ids,
 			line.price_unit * (1-(tot_discount_per or 0.0)/100.0), line.grn_qty, line.product_id,
 			 line.grn_id.supplier_id)['taxes']:
@@ -503,6 +503,8 @@ class kg_general_grn(osv.osv):
 			self.write(cr, uid, ids[0], {'state' : 'reject','rej_user_id': uid,'reject_date': time.strftime("%Y-%m-%d %H:%M:%S")})
 
 		return True
+		
+		
 
 	def print_grn(self, cr, uid, ids, context=None):
 		assert len(ids) == 1, 'This option should only be used for a single id at a time'
@@ -915,6 +917,20 @@ class kg_exp_batch(osv.osv):
 		'product_qty':fields.integer('Product Qty'),
 
 	}
+	
+	
+	def default_get(self, cr, uid, fields, context=None):
+		if context['exp_days']:
+			prod_rec = self.pool.get('product.product').browse(cr,uid,context['exp_days'])
+			if prod_rec.flag_expiry_alert == True:
+				prod_rec = self.pool.get('product.product').browse(cr,uid,context['exp_days'])
+				context['exp_days'] = prod_rec.self_life_days
+			else:
+				context['exp_days'] = 0
+		return context
+		
+		
+		
 	_sql_constraints = [
 
 		('batch_no', 'unique(batch_no)', 'S/N must be unique per Item !!'),
