@@ -37,7 +37,7 @@
 		<field name="supply_type" attrs = "{'invisible':['|',('customer','=',True),('dealer','=',True)],'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
 		<field name="tds" attrs = "{'required':[('company_type','=','individual')],'invisible':[('customer','=',True)],'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
 		<field name="tan_no" class="aplhanum_expect" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
-		<field name="cst_no" class="aplhanum_expect" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
+		<field name="cst_no" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
 		<field name="vat_no" class="aplhanum_expect" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
 		<field name="cheque_in_favour" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}" invisible='1'/>
 		<field name="economic_category" invisible='1'/>
