@@ -678,8 +678,8 @@ class kg_purchase_order_line(osv.osv):
 	def onchange_discount_value_calc(self, cr, uid, ids, kg_discount_per, product_qty, price_unit , tot_price):
 		logger.info('[KG OpenERP] Class: kg_purchase_order_line, Method: onchange_discount_value_calc called...')
 		discount_value_price = 0.00
-		if kg_discount_per > 25:
-			raise osv.except_osv(_(' Warning!!'),_("Discount percentage must be lesser than 25 % !") )			
+		if kg_discount_per > 30:
+			raise osv.except_osv(_(' Warning!!'),_("Discount percentage must be lesser than 30 % !") )			
 		if kg_discount_per:
 			discount_value_price = (tot_price/100.00)*kg_discount_per
 		discount_value = (product_qty * price_unit) * kg_discount_per / 100.00
@@ -806,8 +806,8 @@ class kg_purchase_order_line(osv.osv):
 	def _discount_per(self, cr, uid, ids, context=None):
 		rec = self.browse(cr, uid, ids[0])
 		if rec.kg_discount_per:
-			if rec.kg_discount_per > 25:
-				raise osv.except_osv(_(' Warning!!'),_("Discount percentage must be lesser than 25 % !") )
+			if rec.kg_discount_per > 30:
+				raise osv.except_osv(_(' Warning!!'),_("Discount percentage must be lesser than 30 % !") )
 		return True	
 				
 	
@@ -818,10 +818,12 @@ class kg_purchase_order_line(osv.osv):
 			if product_rec.uom_id.id != product_rec.uom_po_id.id:
 				vals.update({
 							'product_uom':product_rec.uom_po_id.id,
+							'pending_qty':vals['product_qty'],
 							})
 			elif  product_rec.uom_id.id == product_rec.uom_po_id.id:
 				vals.update({
 							'product_uom':product_rec.uom_id.id,
+							'pending_qty':vals['product_qty']
 							})
 		order =  super(kg_purchase_order_line, self).create(cr, uid, vals, context=context)
 		return order
@@ -849,7 +851,7 @@ class kg_purchase_order_line(osv.osv):
 		
 		(_check_length,'You can not save this Length with Zero value !',['Length']),
 		(_check_breadth,'You can not save this Breadth with Zero value !',['Breadth']),
-		(_discount_per,'Discount value must be Lesser than 25 % !',['Discount (%)']),
+		(_discount_per,'Discount value must be Lesser than 30 % !',['Discount (%)']),
 		
 	]
 	
