@@ -319,11 +319,13 @@ class kg_scheduler(osv.osv):
 	def minimum_stock_alert(self, cr, uid, ids=0, context=None):
 		cr.execute("""SELECT minimum_stock_alert('Minimum Stock')""") 
 		data = cr.fetchall();
-		cr.execute("""select (select name_template from product_product where id =sp.product_id) as name
-	from stock_production_lot as sp  
-	where product_id in (select id from product_product where flag_minqty_rule ='t' 
-	and minimum_qty >= (select sum(pending_qty) from stock_production_lot where product_id=sp.product_id))
-	group by product_id,product_uom""")
+		cr.execute("""select * from (
+
+select name_template,
+COALESCE((select sum(pending_qty) from stock_production_lot where product_id =pp.id
+ group by product_id,product_uom),0.00) as current_stock,minimum_qty from product_product as pp where flag_minqty_rule ='t' and active='t'
+) as a 
+where minimum_qty > current_stock""")
 		data1 = cr.fetchall();
 		if data1:
 			if data[0][0] is None:
