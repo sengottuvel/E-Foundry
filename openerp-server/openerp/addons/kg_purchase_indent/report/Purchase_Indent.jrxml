@@ -271,7 +271,7 @@ where pr.id = $P{indent_id}]]>
 			<printWhenExpression><![CDATA[$F{status}!='approved']]></printWhenExpression>
 			<image>
 				<reportElement x="0" y="0" width="555" height="802"/>
-				<imageExpression><![CDATA["/OpenERP/E-Foundry/openerp-server/openerp/addons/kg_depindent/report/Draft.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["/OpenERP/E-Foundry/openerp-server/openerp/addons/kg_purchase_indent/report/Draft.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</background>
@@ -296,6 +296,13 @@ where pr.id = $P{indent_id}]]>
 				<reportElement x="0" y="0" width="56" height="31"/>
 				<imageExpression><![CDATA["/OpenERP/E-Foundry/openerp-server/openerp/addons/web/static/src/img/ellen_logo.jpg"]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement x="458" y="0" width="96" height="17"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Code no : QR741A1]]></text>
+			</staticText>
 		</band>
 	</title>
 	<columnHeader>

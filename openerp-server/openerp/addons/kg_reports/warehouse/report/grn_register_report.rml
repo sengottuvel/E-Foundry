@@ -191,7 +191,7 @@
 <pto>
 	
 	<para style="terp_header_Centre">[[ (data['form']['company']) ]]</para>
-    <para style="terp_header_Centre">[[ (data['form']['status_name']) ]] GRN Register Between [[ (data['form']['date_from_ind']) ]] - [[ (data['form']['date_to_ind']) ]]</para>
+    <para style="terp_header_Centre"> <font color="white">.........................................................</font>[[ (data['form']['status_name']) ]] GRN Register Between [[ (data['form']['date_from_ind']) ]] - [[ (data['form']['date_to_ind']) ]] <font color="white">...............................</font> Code no : QR741A3</para>
    
     <para style="terp_header_Centre"> Inward Type : [[ (data['form']['inward_type1']) ]]<font color="white">.......................................</font> Inward Type : [[ (data['form']['supplier_id']) ]]</para>
 
