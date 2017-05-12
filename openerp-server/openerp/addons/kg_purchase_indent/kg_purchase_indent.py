@@ -25,7 +25,7 @@ class kg_purchase_indent(osv.osv):
 		'dep_name' : fields.many2one('kg.depmaster', 'Dep.Name', readonly=True, states={'draft': [('readonly', False)],'in_progress':[('readonly',False)]}),
 		'state': fields.selection([('draft','Draft'),('in_progress','WFA'),('done','Purchase Done'),('approved','Approved'),('cancel','Cancelled'),('reject','Rejected')],
 						'Status', track_visibility='onchange', required=True, readonly=True, states={'draft': [('readonly', False)],'in_progress':[('readonly',False)]}),
-		'date_start':fields.date('Indent Date', readonly=True, states={'draft': [('readonly', False)],'in_progress':[('readonly',False)]}),
+		'date_start':fields.date('Indent Date',states={'draft': [('readonly', False)],'in_progress':[('readonly',False)]}),
 		'line_ids' : fields.one2many('purchase.requisition.line','requisition_id','Products to Purchase', readonly=True, states={'draft': [('readonly', False)],'in_progress':[('readonly',False)]}),
 		'pi_type': fields.selection([('direct','Direct'),('fromdep','From Dep Indent')], 'Type'),
 		'pi_flag': fields.boolean('pi flag'),
@@ -74,7 +74,7 @@ class kg_purchase_indent(osv.osv):
 		rec = self.browse(cr,uid,ids[0])
 		today = time.strftime("%Y-%m-%d")
 		expected_date = str(rec.expected_date)
-		if expected_date < today:
+		if expected_date < rec.date_start:
 			return False
 		return True
 	
@@ -134,6 +134,9 @@ class kg_purchase_indent(osv.osv):
 	def tender_in_progress(self, cr, uid, ids, context=None):
 		
 		obj = self.browse(cr,uid,ids[0])
+		if not obj.line_ids:
+			raise osv.except_osv(_('Warning!'),
+						_('You can not confirm an empty Purchase Indent !!'))
 		seq_id = self.pool.get('ir.sequence').search(cr,uid,[('code','=','purchase.order.requisition')])
 		seq_rec = self.pool.get('ir.sequence').browse(cr,uid,seq_id[0])
 		cr.execute("""select generatesequenceno(%s,'%s','%s') """%(seq_id[0],seq_rec.code,obj.date_start))
@@ -339,7 +342,7 @@ class kg_purchase_indent(osv.osv):
 			
 	_constraints = [
 	
-		(_past_date_check, 'System not allow to save with past date. !!',['Expected Date']),
+		(_past_date_check, 'Expected Date Must be Smaller than the Indent Date. !!',['Expected Date']),
 	]   	   	
 		
 kg_purchase_indent()
