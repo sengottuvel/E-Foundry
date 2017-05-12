@@ -932,10 +932,6 @@ class kg_exp_batch(osv.osv):
 		
 		
 		
-	_sql_constraints = [
-
-		('batch_no', 'unique(batch_no)', 'S/N must be unique per Item !!'),
-	]
 
 
 kg_exp_batch()
