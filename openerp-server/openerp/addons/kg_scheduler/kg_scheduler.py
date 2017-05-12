@@ -304,8 +304,7 @@ as result"""%(value,value,value,value,value)
 		cr.execute("""select * from (
 
 select name_template,
-COALESCE((select sum(pending_qty) from stock_production_lot where product_id =pp.id
- group by product_id,product_uom),0.00) as current_stock,minimum_qty from product_product as pp where flag_minqty_rule ='t' and active='t'
+COALESCE((select sum(pending_qty) from stock_production_lot where product_id =pp.id),0.00) as current_stock,minimum_qty from product_product as pp where flag_minqty_rule ='t' and active='t'
 ) as a 
 where minimum_qty > current_stock""")
 		data1 = cr.fetchall();
