@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="kg_dep_issue" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="421"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<subDataset name="dataset1">
 		<parameter name="dep_issue_id" class="java.lang.Integer"/>
@@ -27,6 +27,7 @@ select
 res_cmpny.name as company_name,
 dep_mas.dep_name as department_name,
 pro_mas.name_template as product_name,
+pro_mas.flag_expiry_alert as expiry_alert,
 to_char(kg_issue.issue_date::date,'YYYY-mm-dd') as issue_date,
 to_char(kg_issue.issue_date::date,'dd-mm-YYYY')  as issue_dates,
 kg_issue.name as req_no,
@@ -114,7 +115,7 @@ kg_issue.state ='done'
 
 
 
- group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17 order by kg_issue.issue_date
+ group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18 order by kg_issue.issue_date
 ) as a
 
 
@@ -125,6 +126,7 @@ where issue_date >=$P{from_date} and issue_date <= $P{to_date}]]>
 	<field name="company_name" class="java.lang.String"/>
 	<field name="department_name" class="java.lang.String"/>
 	<field name="product_name" class="java.lang.String"/>
+	<field name="expiry_alert" class="java.lang.Boolean"/>
 	<field name="issue_date" class="java.lang.String"/>
 	<field name="issue_dates" class="java.lang.String"/>
 	<field name="req_no" class="java.lang.String"/>
@@ -244,7 +246,7 @@ where issue_date >=$P{from_date} and issue_date <= $P{to_date}]]>
 				<textFieldExpression><![CDATA["Dep"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="81" y="1" width="140" height="32"/>
+				<reportElement x="81" y="1" width="98" height="32"/>
 				<box>
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -396,6 +398,20 @@ where issue_date >=$P{from_date} and issue_date <= $P{to_date}]]>
 					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Reqt UOM"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="179" y="1" width="42" height="32"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Self Life Days"]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
@@ -570,7 +586,7 @@ where issue_date >=$P{from_date} and issue_date <= $P{to_date}]]>
 				<textFieldExpression><![CDATA[$F{rate}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="81" y="0" width="140" height="38"/>
+				<reportElement x="81" y="0" width="98" height="38"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -596,6 +612,20 @@ where issue_date >=$P{from_date} and issue_date <= $P{to_date}]]>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{num}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="179" y="0" width="41" height="38"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{expiry_alert}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
