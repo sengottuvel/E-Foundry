@@ -678,8 +678,8 @@ class kg_purchase_order_line(osv.osv):
 	def onchange_discount_value_calc(self, cr, uid, ids, kg_discount,kg_discount_per, product_qty, price_unit , tot_price):
 		logger.info('[KG OpenERP] Class: kg_purchase_order_line, Method: onchange_discount_value_calc called...')
 		discount_value_price = 0.00
-		if kg_discount_per > 30:
-			raise osv.except_osv(_(' Warning!!'),_("Discount percentage must be lesser than 30 % !") )			
+		if kg_discount_per > 40:
+			raise osv.except_osv(_(' Warning!!'),_("Discount percentage must be lesser than 40 % !") )			
 		if kg_discount_per:
 			discount_value_price = (tot_price/100.00)*kg_discount_per
 		discount_value = (product_qty * price_unit) * kg_discount_per / 100.00
@@ -809,8 +809,8 @@ class kg_purchase_order_line(osv.osv):
 	def _discount_per(self, cr, uid, ids, context=None):
 		rec = self.browse(cr, uid, ids[0])
 		if rec.kg_discount_per:
-			if rec.kg_discount_per > 30:
-				raise osv.except_osv(_(' Warning!!'),_("Discount percentage must be lesser than 30 % !") )
+			if rec.kg_discount_per > 40:
+				raise osv.except_osv(_(' Warning!!'),_("Discount percentage must be lesser than 40 % !") )
 		return True	
 				
 	
