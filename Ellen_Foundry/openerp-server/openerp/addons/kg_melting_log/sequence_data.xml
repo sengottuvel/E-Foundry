@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		
+	<!-- Sequence Start -->
+
+        <record forcecreate="1" id="seq_kg_melting_log" model="ir.sequence.type"> 
+			<field name="name">Kg Melting Log</field>
+			<field name="code">kg.melting.log</field>
+		</record>
+
+		<record forcecreate="1" id="seq_kg_melting_log_id" model="ir.sequence">
+			  <field name="name">Kg Melting Log</field>
+			  <field name="code">kg.melting.log</field>
+			  <field name="padding" eval="4"/>
+			  <field name="prefix">ML/%(year)s /</field>
+			  <field name="reset_sequence">yearly_reset</field>
+		</record>
+		
+	<!-- Sequence End -->		
+		
+				
+	</data>
+</openerp>

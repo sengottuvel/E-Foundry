@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+	<!-- Inherited  Form View Start -->
+
+
+	<record model="ir.ui.view" id="t_form_v_sale_order_inherit">
+        <field name="name">Sale Order Form Inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">		
+		
+            <button name="entry_confirm" states="draft" string="Confirm" type="object" position="after">
+				<button name="so_entry_confirm" states="draft" string="Confirm" type="object"/>
+				<button name="so_entry_approve" states="confirm" string="Approve" type="object" confirm="Are you sure to proceed ?"/>				
+			</button>
+			
+			
+			<field name="sale_type" position="replace">
+				<field name="sale_type" invisible='1'/>
+				<field name="name" readonly='1'/>
+			</field>
+			
+			<field name="partner_id" position="after">
+				<field name="customer_po" class="aplhanum_expect" attrs="{'readonly': [('state','in',['approved'])]}"/>
+				<field name="type_of_delivery" attrs="{'readonly': [('type_of_delivery','!=',False)]}"/>
+				<field name="client_order_ref" class="aplhanum_expect" attrs="{'readonly': [('state','in',['approved'])]}"/>
+			</field>
+		
+			<field name="date_order" position="after">
+				<field name="customer_code"/>
+				<field name="customer_po_date" required='1' attrs="{'readonly': [('state','in',['approved'])]}"/>
+				<field name="mode_of_delivery" attrs="{'readonly': [('mode_of_delivery','!=',False)]}"/>
+				<field name="customer_address" invisible='1'/>
+			</field>
+		
+			<field name="state" widget="statusbar" statusbar_visible="draft,sent,invoiced,done" statusbar_colors='{"invoice_except":"red","waiting_date":"green"}' position="replace">
+				<field name="state" widget="statusbar" statusbar_visible="draft,confirm,approved"/>
+			</field>
+
+			<field name="price_unit" position="after">
+				<field name="pending_qty" invisible='1'/>
+				<field name="grade_id" attrs="{'readonly': [('state','in',['approved'])]}"/>
+				<field name="drawing_no" required='1' on_change="onchange_drawing_id(product_id,drawing_no,drawing_rev_no)"/>
+				<field name="remark"/>
+			</field>
+			
+			<field name="stock_qty" position="before">
+				<field name="pending_qty" invisible='1'/>
+			</field>
+			
+			<field name="product_uom_qty" position="before">
+				<field name="order_qty" on_change="onchange_order_qty(th_weight,order_tot_wgt,acc_tot_wgt)"/>
+			</field>
+			
+
+
+			<field name="th_weight" position="replace">
+				<field name="th_weight" on_change="onchange_piece_wgt(th_weight,order_tot_wgt,acc_tot_wgt,pending_qty,order_qty)"/>
+				<field name="order_date" invisible='1'/>
+				<field name="delivery_date" required='1' options="{'datepicker':{'maxDate': null,'minDate':0}}"/>
+				<field name="acc_tot_wgt" readonly='1'/>
+				<field name="drawing_rev_no" readonly='1'/>
+				<field name="order_tot_wgt" readonly='1'/>
+				<field name="cus_price"/>
+			</field>
+        
+			<xpath expr = "//page[@string='Other Information']" position="replace" >
+				 <page string="Other Information" groups="base.group_user" invisible='1'>
+					<group>
+						<group name="sales_person" groups="base.group_user">
+							<field name="user_id"/>
+							<field groups="base.group_no_one" name="origin"/>
+						</group>
+						<group name="sale_pay">
+							<field name="payment_term" widget="selection"/>
+							<field name="fiscal_position" widget="selection"/>
+							<field name="company_id" widget="selection" groups="base.group_multi_company"/>
+						</group>
+						<group>
+							<field name="invoiced"/>
+							<field name="invoice_exists" invisible="1"/>
+						</group>
+					</group>
+				</page>
+ 
+				<page string="Internal Notes">
+					<field name="note" nolabel='1' placeholder="Put an internal note..."/>
+				</page>			
+							
+				<page string="Entry Info">
+					<group>
+						<field name="company_id"/>
+					</group>
+					<group>
+						<field name="active"/>
+					</group>						
+					<group>
+						<group>
+							<field name="user_id"/>
+							<field name="conf_user_id" attrs="{'invisible': [('state','=', 'draft')]}"/>
+							<field name="ap_rej_user_id" attrs="{'invisible': [('state','in', ('draft','confirmed'))]}"/>
+							<field name="update_user_id"/>
+						</group>
+						<group>
+							<field name="crt_date"/>
+							<field name="confirm_date" attrs="{'invisible': [('state','=', 'draft')]}"/>
+							<field name="ap_rej_date" attrs="{'invisible': [('state','in', ('draft','confirmed'))]}"/>
+							<field name="update_date"/>	
+						</group>
+					</group>
+				</page>        
+				<page string="Notification Info" attrs="{'readonly': [('state','in',['approved'])]}">								
+					<group>
+						<group>
+							<field name="flag_sms"/>										
+						</group>
+						<group>
+							<field name="flag_email"/>
+							<field name="flag_spl_approve"/>
+						</group>
+					</group>
+				</page>               
+			</xpath>		
+		</field>
+	</record>
+	
+	<!-- Inherited Form View End -->
+	
+	
+		
+	<!--Child Tree View Start -->
+	
+	
+		<record id="t_tree_v_sale_order_line_1" model="ir.ui.view">
+			<field name="name">Sale Order Line Tree</field>
+			<field name="model">sale.order.line</field>
+			<field eval="8" name="priority"/>
+			<field name="arch" type="xml">
+				<tree toolbar="True" string="Sale Order Line" create="false" delete="false">					
+					<field name="order_id" string="SO No"/>
+					<field name="order_date" string="SO Date"/>
+					<field name="order_partner_id" string="Customer Name"/>
+					<field name="product_id" string="Product"/>
+					<field name="product_uom" string="UOM"/>
+					<field name="delivery_date"/>
+					<field name="product_uom_qty"/>
+					<field name="pending_qty"/>
+					<field name="state" invisible='1'/>
+				</tree>
+			</field>
+		</record>
+		
+		
+	<!-- Child Tree View End -->	
+	
+	<!-- Child Search View Start -->
+
+		<record id="t_search_v_sale_order_line" model="ir.ui.view">
+            <field name="name">Sale Order Line Search</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <search string="Sale Order Line Search">
+					<field name="product_id" string="Product"  filter_domain="[('product_id','ilike',self)]" />
+					<separator/>
+                    <group expand="0" string="Group By...">
+						<filter string="Product Id" name="group_product_id" icon="terp-gtk-select-all" domain="[]" context="{'group_by':'product_id'}"/>
+                        <filter string="Status" icon="terp-gtk-select-all" domain="[]" context="{'group_by':'state'}"/>
+					</group>
+                </search>
+			</field>
+		</record>
+		
+	<!-- Child Search View End -->	
+	
+	
+	<!--Child Menu Action Start-->
+		
+		
+		<record id="tma_sale_order_line" model="ir.actions.act_window">
+			<field name="name">Item Details</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">sale.order.line</field>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="t_tree_v_sale_order_line_1"/>
+			<field name="domain">[('pending_qty','!=',0),('order_id.state','=','approved')]</field>
+			<field name="search_view_id" ref="t_search_v_sale_order_line"/>
+			<field name="context">{'search_default_group_product_id':1}</field>
+		</record>		
+		
+		
+	<!-- Child Menu Action End-->	
+	
+	<!-- Audit Log Xml Data Start -->
+		
+        <record id="audit_sale_order" model="audittrail.rule">
+            <field name="name">Audit Log Sale Order</field>
+            <field name="object_id" eval="ref('sale.model_sale_order')"/>       
+            <field name="state">subscribed</field>              
+        </record>
+		
+        <record id="audit_sale_order_line" model="audittrail.rule">
+            <field name="name">Audit Log Sale Order Line</field>
+            <field name="object_id" eval="ref('sale.model_sale_order_line')"/>       
+            <field name="state">subscribed</field>              
+        </record>
+        
+    
+        
+    <!-- Audit Log Xml Data End-->		
+    
+	<!-- Menu Item Start -->
+			
+			<!-- Schedule Menu -->
+			
+	            <menuitem action="tma_sale_order_line" id="tpm_sale_order_line" parent="base.menu_sales" sequence="6"/>
+
+
+	<!-- Menu Item End -->		
+
+	
+	
+	
+
+		
+	
+	    </data>
+</openerp>

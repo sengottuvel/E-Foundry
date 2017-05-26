@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	
+	<!-- Form View Start -->
+
+	
+		<record id="m_form_v_pattern_m" model="ir.ui.view">
+			<field name="name">kg.pattern.form</field>
+			<field name="model">kg.pattern.master</field>
+			<field name="arch" type="xml">
+				<form string="Pattern Master" version="7.0">
+					<header>
+						<button name="entry_approve" type="object" string="Approve" states="confirm" class="oe_highlight" confirm="Are you sure to proceed ?"/>
+						<button name="entry_reject" type="object" string="Reject" states="confirm" class="oe_highlight" confirm="Are you sure to proceed ?"/>
+						<button name="entry_confirm" type="object" string="Confirm" states="draft" class="oe_highlight"/>
+						<button name="entry_cancel" type="object" string="Cancel" attrs="{'invisible':[('modify','=','no')]}" class="oe_highlight" confirm="Are you sure to proceed ?"/>
+						<button name="entry_draft" class="oe_highlight" type="object" string="Set To Draft" attrs = "{'invisible':[('state','not in',('cancel'))]}"/> 						
+						<field name="state" widget="statusbar" statusbar_visible="draft,approved,confirm,cancel,reject" statusbar_colors='{"draft":"blue","approved":"blue","confirm":"red","cancel":"red","reject":"red"}' readonly="1"/>
+					</header>
+					<sheet>
+					<group>
+						<group>
+							<field name="name" class="aplhanum_expect" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>						
+							<field name="modify" invisible='1'/>
+							<field name="box_size" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+							<field name="moulding_sand" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+							<field name="sleeve_details" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+							<field name="mould_hardness_min" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+							<field name="mould_hardness_max" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+							<field name="heat_code" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+							<field name="box_frame" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+							<field name="no_of_melt" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+							<field name="yields" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+						</group>
+						<group>
+							<field name="code" class="aplhanum_expect" required='1' attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>						
+							<field name="grade_of_metal" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+							<field name="riser_details" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+							<field name="gc_min" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+							<field name="gc_max" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+							<field name="test_bar" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+							<field name="pouring_wgt" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+							<field name="metal_wgt" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+						</group>					
+						</group>			
+						<group string='Remarks' attrs="{'invisible':[('state','=','draft')]}">
+							<group>	
+								<field name="remark" attrs="{'invisible':[('state','=','draft')], 'readonly': [('state','in',['approved','reject','cancel'])]}"/>
+							</group>
+							<group>												
+								<field name="cancel_remark" attrs="{'invisible': [('state','in', ('draft','confirm','reject'))] , 'readonly': [('state','in',['cancel'])]}"/>												
+							</group>
+						</group>				
+						<notebook>
+							<page string="Line Items">
+								<field colspan="4" mode="tree" name="line_ids" nolabel="1" widget="one2many_list" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}">
+									<tree string="Pattern Line" editable="bottom"> 
+										<field name="product_id" required="1"/>
+										<field name="no_of_cavity" required="1"/>
+									</tree>
+								</field>
+							</page>							
+							<page string="Internal Notes">
+								<field name="notes" nolabel='1' placeholder="Put an internal note..."/>
+							</page>							
+							<page string="Entry Info">
+								<group>
+								<group>
+									<field name="company_id" readonly='1'/>
+									<field name="active"/>
+								</group>
+								</group>							
+								<group>
+									<group>
+										<field name="user_id"/>
+										<field name="confirm_user_id" attrs="{'invisible': [('state','=', 'draft')]}"/>
+										<field name="ap_rej_user_id" attrs="{'invisible': [('state','in', ('draft','confirm','reject'))]}"/>
+										<field name="cancel_user_id" attrs="{'invisible': [('state','in', ('draft','confirm','approved','reject'))]}"/>
+										<field name="update_user_id"/>
+									</group>
+									<group>
+										<field name="crt_date"/>
+										<field name="confirm_date" attrs="{'invisible': [('state','=', 'draft')]}"/>
+										<field name="ap_rej_date" attrs="{'invisible': [('state','in', ('draft','confirm','reject'))]}"/>
+										<field name="cancel_date" attrs="{'invisible': [('state','in', ('draft','confirm','approved','reject'))]}"/>							
+										<field name="update_date"/>	
+									</group>
+								</group>
+							</page>                        
+						</notebook>				
+					</sheet>
+				</form>
+			</field> 
+		</record>
+
+
+
+		<!-- Form View End -->
+
+		<!-- Tree View Start -->
+		
+		<record id="m_tree_v_pattern_m" model="ir.ui.view">
+			<field name="name">kg.pattern.tree</field>
+			<field name="model">kg.pattern.master</field>
+			<field name="arch" type="xml">
+				<tree toolbar="True" string="Pattern Master" colors="blue:state == 'draft';red:state == 'confirm';black:state == 'approved';grey:state == 'reject'">
+					<field name="name"/>
+					<field name="code"/>
+					<field name="box_size"/>
+					<field name="metal_wgt"/>
+					<field name="grade_of_metal"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+		
+		
+		<!-- Tree View End -->
+
+		<!-- Search View Start -->
+		
+        <record id="m_search_v_pattern_m" model="ir.ui.view">
+            <field name="name">kg.pattern.search</field>
+            <field name="model">kg.pattern.master</field>
+            <field name="arch" type="xml">
+                <search string="Pattern Master">
+                    <field name="name" string="Name"/>
+                    <field name="code" string="Code"/>
+					<group expand="0" string="Group By...">
+						<filter string="Status" context="{'group_by': 'state'}"/>
+					</group>                    
+                </search>
+            </field>
+        </record>	
+
+
+
+
+		<!-- Search View End -->
+		
+
+		<!-- Menu Action Start-->		
+
+		
+		 <record id="mma_metal_pattern_master" model="ir.actions.act_window">
+			<field name="name">Pattern Master</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">kg.pattern.master</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="m_tree_v_pattern_m"/>
+		</record>
+
+		<!-- Menu Action End-->
+		
+		
+		 <!-- Audit Log Xml Data Start -->
+		 
+        <record id="model_pattern_master" model="audittrail.rule">
+            <field name="name">Pattern Master</field>
+            <field name="object_id" eval="ref('kg_pattern_master.model_kg_pattern_master')"/>       
+            <field name="state">subscribed</field>              
+        </record>
+        
+        <record id="model_kg_pattern_master_line" model="audittrail.rule">
+            <field name="name">Pattern Master Line</field>
+            <field name="object_id" eval="ref('kg_pattern_master.model_kg_pattern_master_line')"/>       
+            <field name="state">subscribed</field>              
+        </record>
+        
+        <!-- Audit Log Xml Data End-->
+        
+		
+		<!-- Menu Name Start here --> 	
+				
+			
+			<menuitem id="mam_pattern_master" parent="kg_production_unit.mpm_production_master" name="Pattern Master" action="mma_metal_pattern_master" sequence="6"/>
+		
+		<!-- Menu Name End here --> 
+
+	</data>
+</openerp>

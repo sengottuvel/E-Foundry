@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		
+	<!-- Sequence Start -->
+
+        <record forcecreate="1" id="seq_kg_daily_Plan" model="ir.sequence.type"> 
+			<field name="name">Kg Daily Plan</field>
+			<field name="code">kg.daily.plan</field>
+		</record>
+
+		<record forcecreate="1" id="seq_kg_daily_plan_id" model="ir.sequence">
+			  <field name="name">Kg Daily Plan</field>
+			  <field name="code">kg.daily.plan</field>
+			  <field name="padding" eval="4"/>
+			  <field name="prefix">DP/%(year)s /</field>
+			  <field name="reset_sequence">yearly_reset</field>
+		</record>
+		
+	<!-- Sequence End -->		
+		
+				
+	</data>
+</openerp>
