@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		
+	<!-- Form View Start -->
+		
+	<record id="m_form_v_coretype_m" model="ir.ui.view">
+			<field name="name">kg.coretype.form</field>
+			<field name="model">kg.core.type.master</field>
+			<field name="arch" type="xml">
+				<form string="Core Type" version="7.0">
+				<header>
+						<button name="entry_approve" type="object" string="Approve" states="confirm" class="oe_highlight" confirm="Are you sure to proceed ?"/>
+						<button name="entry_reject" type="object" string="Reject" states="confirm" class="oe_highlight" confirm="Are you sure to proceed ?"/>
+						<button name="entry_confirm" type="object" string="Confirm" states="draft" class="oe_highlight"/>
+						<button name="entry_cancel" type="object" string="Cancel" attrs="{'invisible':[('modify','=','no')]}" class="oe_highlight" confirm="Are you sure to proceed ?"/>
+						<button name="entry_draft" class="oe_highlight" type="object" string="Set To Draft" attrs = "{'invisible':[('state','not in',('cancel'))]}"/> 						
+						<field name="state" widget="statusbar" statusbar_visible="draft,approved,confirm,cancel,reject" statusbar_colors='{"draft":"blue","approved":"blue","confirm":"red","cancel":"red","reject":"red"}' readonly="1"/>
+					</header>
+					<sheet>
+					<group>
+						<group>
+							<field name="name" class="aplhanum_expect" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>						
+							<field name="modify" invisible='1'/>
+							<field name="rate" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>						
+						</group>
+						<group>
+							<field name="code" class="aplhanum_expect" required='1' attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>						
+						</group>					
+						</group>
+							<group string='Remarks' attrs="{'invisible':[('state','=','draft')]}">
+								<group>	
+									<field name="remark" attrs="{'invisible':[('state','=','draft')], 'readonly': [('state','in',['approved','reject','cancel'])]}"/>
+								</group>
+								<group>												
+									<field name="cancel_remark" attrs="{'invisible': [('state','in', ('draft','confirm','reject'))] , 'readonly': [('state','in',['cancel'])]}"/>												
+								</group>
+							</group>				
+							<notebook>
+								<page string="Internal Notes">
+									<field name="notes" nolabel='1' placeholder="Put an internal note..."/>
+								</page>							
+								<page string="Entry Info">
+									<group>
+									<group>
+										<field name="company_id" readonly='1'/>
+										<field name="active"/>
+									</group>
+									</group>							
+									<group>
+										<group>
+											<field name="user_id"/>
+											<field name="confirm_user_id" attrs="{'invisible': [('state','=', 'draft')]}"/>
+											<field name="ap_rej_user_id" attrs="{'invisible': [('state','in', ('draft','confirm','reject'))]}"/>
+											<field name="cancel_user_id" attrs="{'invisible': [('state','in', ('draft','confirm','approved','reject'))]}"/>
+											<field name="update_user_id"/>
+										</group>
+										<group>
+											<field name="crt_date"/>
+											<field name="confirm_date" attrs="{'invisible': [('state','=', 'draft')]}"/>
+											<field name="ap_rej_date" attrs="{'invisible': [('state','in', ('draft','confirm','reject'))]}"/>
+											<field name="cancel_date" attrs="{'invisible': [('state','in', ('draft','confirm','approved','reject'))]}"/>							
+											<field name="update_date"/>	
+										</group>
+									</group>
+								</page>                        
+							</notebook>				
+						</sheet>
+					</form>
+			</field> 
+		</record>
+
+
+		<!-- Form View End -->
+
+		<!-- Tree View Start -->
+		
+		<record id="m_tree_v_coretype_m" model="ir.ui.view">
+			<field name="name">kg.coretype.tree</field>
+			<field name="model">kg.core.type.master</field>
+			<field name="arch" type="xml">
+				<tree toolbar="True" string="Core Type" colors="blue:state == 'draft';red:state == 'confirm';black:state == 'approved';grey:state == 'reject'">
+					<field name="name"/>
+					<field name="code"/>
+					<field name="rate"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+		
+		
+		<!-- Tree View End -->
+
+		<!-- Search View Start -->
+		
+				
+		
+        <record id="m_search_v_coretype_m" model="ir.ui.view">
+            <field name="name">kg.coretype.search</field>
+            <field name="model">kg.core.type.master</field>
+            <field name="arch" type="xml">
+                <search string="Core Type">
+                    <field name="name" string="Core type"/>
+                    <field name="code" string="Core type Code"/>
+					<group expand="0" string="Group By...">
+						<filter string="Status" context="{'group_by': 'state'}"/>
+					</group>                    
+                </search>
+            </field>
+        </record>	
+
+
+
+		<!-- Search View End -->
+		
+
+		<!-- Menu Action Start-->		
+		
+		
+		
+		 <record id="mma_coretype_master" model="ir.actions.act_window">
+			<field name="name">Core Type</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">kg.core.type.master</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="m_tree_v_coretype_m"/>
+		</record>
+		
+		
+		<!-- Menu Action End-->
+		
+		
+		 <!-- Audit Log Xml Data Start -->
+		 
+        <record id="model_core_type_master" model="audittrail.rule">
+            <field name="name">Core Type Master</field>
+            <field name="object_id" eval="ref('kg_core_type_master.model_kg_core_type_master')"/>       
+            <field name="state">subscribed</field>              
+        </record>
+        
+        <!-- Audit Log Xml Data End-->
+        
+		
+		<!-- Menu Name Start here --> 	
+		
+			
+			<menuitem id="mam_coretype_master" parent="kg_production_unit.mpm_production_master" name="Core Type" action="mma_coretype_master" sequence="2"/>
+		
+		<!-- Menu Name End here --> 
+
+
+	</data>
+</openerp>
