@@ -1,3 +1,0 @@
-import onscreen_purchase_indent_report
-
-
