@@ -245,7 +245,7 @@ class ch_schedule_line(osv.osv):
 		'order_qty':fields.float('Order Qty',readonly=True),
 		'pending_qty':fields.float('Weekly/Daily Pending Qty',required=True),
 		'schedule_qty':fields.float('Schedule Qty',required=True),
-		'schedule_date':fields.date('Schedule Date',required=True),
+		'schedule_date':fields.date('Delivery Date',required=True),
 		'production_id':fields.many2one('kg.production.unit','Production Unit Name',readonly=True,domain="[('state','=','approved')]"),
 		'line_state': fields.selection([('pending','Pending'),('painting','Painting'),('qc_process','QC Process'),
 				('done','Done')],'Line Status', readonly=True),
