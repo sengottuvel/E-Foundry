@@ -523,8 +523,8 @@
 			<field name="arch" type="xml">
 				<form string="RFQ Quotation Line" version="7.0">
 					<header>
-					<button name="entry_submit" states="draft" string="Submit" type="object" class="oe_highlight"/>
-					<button name="entry_reject" states="draft" string="Reject" type="object" class="oe_highlight"/>
+					<button name="entry_submit" states="draft" invisible='1' string="Submit" type="object" class="oe_highlight"/>
+					<button name="entry_reject" states="draft" invisible='1' string="Reject" type="object" class="oe_highlight"/>
 					</header>
 					<group>
 						<group>
@@ -611,8 +611,8 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 
-
 <!--
+
         <record forcecreate="1" id="seq_kg_rfq_vendor_selection_n" model="ir.sequence.type"> 
 			<field name="name">KG RFQ Vendor Selection</field>
 			<field name="code">kg.rfq.vendor.selection</field>
