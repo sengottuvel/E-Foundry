@@ -196,7 +196,7 @@ class res_partner(osv.osv, format_address):
 
 	_order = "name"
 	_columns = {
-		'name': fields.char('Supplier Name', size=128, required=True, select=True),
+		'name': fields.char('Name', size=128, required=True, select=True),
 		'contact_person':fields.char('Contact Person', size=128),
 		'date': fields.date('Date', select=1),
 		'title': fields.many2one('res.partner.title', 'Title'),
@@ -229,7 +229,7 @@ class res_partner(osv.osv, format_address):
 			help="Used to select automatically the right address according to the context in sales and purchases documents."),
 		'street': fields.char('Street', size=128),
 		'street2': fields.char('Street2', size=128),
-		'zip': fields.char('Zip', change_default=True, size=24),
+		'zip': fields.char('Zip', change_default=True, size=6),
 		'city': fields.many2one('res.city','City'),
 		'state_id': fields.many2one("res.country.state", 'State'),
 		'country_id': fields.many2one('res.country', 'Country'),
@@ -238,6 +238,7 @@ class res_partner(osv.osv, format_address):
 		'email': fields.char('Email', size=240),
 		'phone': fields.char('Phone', size=64),
 		'fax': fields.char('Fax', size=64),
+		'supplier_code': fields.char('Supplier Code', size=10),
 		'mobile': fields.char('Mobile', size=64),
 		'birthdate': fields.char('Birthdate', size=64),
 		'is_company': fields.boolean('Is a Company', help="Check if the contact is a company, otherwise it is a person"),
@@ -305,6 +306,7 @@ class res_partner(osv.osv, format_address):
 		'updated_date': fields.datetime('Last Updated Date',readonly=True),
 		'updated_by': fields.many2one('res.users','Last Updated By',readonly=True),		
 		'cancel_remark': fields.text('Cancel Remarks'),
+		'gstin_no': fields.char('GSTIN Number'),
 		
 		
 	}
@@ -460,6 +462,17 @@ class res_partner(osv.osv, format_address):
 				return True
 			else:
 				return False
+		return True			
+			
+#check GSTIN No
+
+	def _check_gstin_no(self, cr, uid, ids, context=None):
+		rec = self.browse(cr, uid, ids[0])
+		if rec.gstin_no:
+			if len(rec.gstin_no) == 15:
+				return True
+			else:
+				return False
 		return True				
 		
 #chec Job position
@@ -482,6 +495,7 @@ class res_partner(osv.osv, format_address):
 		(_check_cst, 'Enter a correct CST Number in CST field!!', ['cst_no']),
 		(_check_vat, 'Enter a correct VAT Number in VAT Field!!', ['vat_no']),
 		(_check_website, 'Enter a correct URL in Website Field!!', ['website']),
+		(_check_gstin_no, 'Enter a correct GSTIN Number!', ['gstin_no']),
 		(_check_job_position, 'Special characters are not allowed in the job position Field!!', ['function']),
        	]
 	

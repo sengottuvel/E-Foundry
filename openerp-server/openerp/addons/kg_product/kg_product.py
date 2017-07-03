@@ -28,7 +28,7 @@ class kg_product(osv.osv):
 		'capital': fields.boolean('Capital Goods'),
 		'abc': fields.boolean('ABC Analysis'),
 		'po_uom_coeff': fields.float('PO Coeff', required=True, help="One Purchase Unit of Measure = Value of(PO Coeff)UOM"),
-		'product_type': fields.selection([('raw_material','Raw Materials'),('consu', 'Consumables'),('manufacturing','Manufacturing'),('spares_pump','Spares - Pump'),('spares_motor','Spares - Motor'),('semi_finshed','Semi Finshed'),('insulator','Insulator'),('spares_packing','Spares - Packing'),('spares_winding','Spares - Winding'),('service_items','Service Items')], 'Product Type',required=True),
+		'product_type': fields.selection([('raw_material','Raw Materials'),('finished_items','Finished Items'),('consu', 'Consumables'),('manufacturing','Manufacturing'),('spares_pump','Spares - Pump'),('spares_motor','Spares - Motor'),('semi_finshed','Semi Finshed'),('insulator','Insulator'),('spares_packing','Spares - Packing'),('spares_winding','Spares - Winding'),('service_items','Service Items')], 'Product Type',required=True),
 		'approve_date': fields.datetime('Approved Date', readonly=True),
 		'app_user_id': fields.many2one('res.users', 'Approved By', readonly=True),
 		'confirm_date': fields.datetime('Confirmed Date', readonly=True),
@@ -61,6 +61,28 @@ class kg_product(osv.osv):
 		'company_id': fields.many2one('res.company', 'Company Name',readonly=True),
 		'stockable': fields.selection([('yes','Yes'),('no','No')],'Stockable Item',required=True),
 		'supplier_details': fields.one2many('ch.supplier.details', 'supplier_id', 'Supplier Details'),
+		###########
+		'production_unit_id': fields.many2one('kg.production.unit', 'Production Unit', domain="[('state','=','approved')]"),
+		'customer_id': fields.many2one('res.partner', 'Customer Name',domain="[('customer','=',True),('sup_state','=','approved')]"),
+		'part_name': fields.char('Part Name',size=128),
+		'sale_price': fields.float('Sale Price'),
+		'piece_wgt': fields.float('Piece Weight'),
+		'core': fields.boolean('Core'),
+		'drawing_details': fields.boolean('Drawing Details'),
+		'casting_type':fields.selection([('raw','Raw Casting'),('machine','Machine Casting'),('rawpack','Raw Casting with packing'),('rawunpack','Raw Casting Without Packing'),('machinepack','Machine Casting with packing'),('machineunpack','Machine Casting Without Packing')],'Casting Type'),
+		'metal_id': fields.many2one('kg.metal.grade.master', 'Metal Grade', domain="[('state','=','approved')]"),
+		'painting':fields.selection([('required','Required'),('not_required','Not Required')],'Painting Status'),
+		're_shot_blasting':fields.selection([('required','Required'),('not required','Not Required')],'Re-Shot Blasting Status'),	
+		'machining':fields.selection([('required','Required'),('not_required','Not Required')],'Machining'),
+		'test_bar':fields.selection([('required','Required'),('not_required','Not Required')],'Test Bar'),
+		'packing':fields.selection([('required','Required'),('not_required','Not Required')],'Packing'),
+		'inspec_detail':fields.selection([('required','Required'),('not_required','Not Required')],'Inspection Details'),
+		'internal_reference': fields.char('Internal Reference',size=64),
+		'line_ids_a':fields.one2many('kg.core.map','header_id','Core map'),
+		'line_ids_b':fields.one2many('kg.drawing.details','header_id','Drawing Details'),
+		'line_ids_c':fields.one2many('kg.inspect.details','header_id','inspection Details'),
+		'hsn_code': fields.char('HSN Code'),
+		
 		
 	}
 	
@@ -78,6 +100,16 @@ class kg_product(osv.osv):
 	def entry_confirm(self,cr,uid,ids,context=None):
 		b = datetime.now()		
 		d_time = b.strftime('%m/%d/%Y %H:%M:%S')
+		rec = self.browse(cr, uid, ids[0])
+		if rec.product_type =='finished_items':
+			if rec.sale_price <=0 or rec.piece_wgt <=0:
+				raise osv.except_osv(_('Warning !!'),
+				_('Sale price and Piece weight Values must be greater than 0 !!'))
+			for i in rec.line_ids_a:
+				if rec.core==True:
+					if i.no_of_cores <=0 or i.wt_of_cores <=0:
+						raise osv.except_osv(_('Warning !!'),
+					_('No and Weight of core must be greater than 0 !!'))
 		self.write(cr, uid, ids, {'state': 'confirm','conf_user_id': uid, 'confirm_date': d_time})   
 		return True
 
@@ -85,6 +117,15 @@ class kg_product(osv.osv):
 		b = datetime.now()		
 		d_time = b.strftime('%m/%d/%Y %H:%M:%S')
 		rec = self.browse(cr, uid, ids[0])
+		if rec.product_type =='finished_items':
+			if rec.sale_price <=0 or rec.piece_wgt <=0:
+				raise osv.except_osv(_('Warning !!'),
+				_('Sale price and Piece weight Values must be greater than 0 !!'))
+			for i in rec.line_ids_a:
+				if rec.core==True:
+					if i.no_of_cores <=0 or i.wt_of_cores <=0:
+						raise osv.except_osv(_('Warning !!'),
+					_('No and Weight of core must be greater than 0 !!'))		
 		access_obj = self.pool.get('kg.accessories.master')
 		ch_access_obj = self.pool.get('ch.kg.accessories.master')
 		if rec.is_accessories == True:
@@ -159,9 +200,26 @@ class kg_product(osv.osv):
 					   
 		return res 
 		
+	def _hsn_validation(self, cr, uid,ids, context=None):
+		rec = self.browse(cr,uid,ids[0])
+		if len(rec.hsn_code) >=6 and len(rec.hsn_code) <=8:
+			for i in rec.hsn_code:
+				if i.isdigit():
+					return True
+				else:
+					raise osv.except_osv(_('Warning !!'),
+				_('Enter correct values in HSN Code !!'))
+		else:
+			raise osv.except_osv(_('Warning !!'),
+				_('Enter correct values in HSN Code !!'))
+		res = True
+					   
+		return res 
+		
 	_constraints = [
 		
 		(_name_validate, 'product name must be unique !!', ['name']),
+		(_hsn_validation, 'HSN Code must be in the range of 6 to 8 !!', ['hsn_code']),
 	   
 	]	   
 	
@@ -224,5 +282,59 @@ class ch_product_yearly_average_price(osv.osv):
 	}
 ch_product_yearly_average_price()	
 
-	
 
+class kg_core_map(osv.osv):
+	_name = 'kg.core.map'	
+	
+	
+	_columns = {
+		'core_name':fields.many2one('kg.core.master','Name',required=True,domain="[('state','=','approved')]"),
+	    'core_box_code':fields.char('Code',size=128,required=True),
+		'type_core':fields.many2one('kg.core.type.master','Core Type',required=True,domain="[('state','=','approved')]"),
+		'no_of_cores': fields.float('Number of Cores',required=True),
+		'wt_of_cores':fields.float('Weight of Cores',required=True),
+		'header_id':fields.many2one('product.product','Header id'),
+	}
+	
+	
+	def onchange_core_datails(self,cr,uid,ids,core_name,core_box_code,type_core,wt_of_cores,context=None):
+		value = {'core_box_code':'','type_core':'','wt_of_cores':''}
+		core_obj        = self.pool.get('kg.core.master')
+		core_browse     = core_obj.browse(cr,uid,core_name)
+		value = {'core_box_code':core_browse.code,'type_core':core_browse.core_type.id,'wt_of_cores':core_browse.weight}
+		return {'value': value}	
+
+kg_core_map()
+
+
+class kg_drawing_details(osv.osv):
+	_name = 'kg.drawing.details'
+	
+	_columns = {
+		'name': fields.char('Drawing Number',size=128,),
+		'drawing_rev_number':fields.char('Drawing Rev Number',size=128),
+		'attachment':fields.binary('Add attachment'),
+		'draw_info':fields.selection([('active','Active'),('inactive','In-Active')],'Status'),
+		'header_id':fields.many2one('product.product','Header Id',invisible=True),
+		
+	}
+	
+	_defaults = {
+	
+		'drawing_rev_number': '0'
+	}
+		
+kg_drawing_details()
+
+class kg_inspect_details(osv.osv):
+	_name = 'kg.inspect.details'
+	
+	_columns = {
+		'inspect_number': fields.char('Inspection Number',size=128),
+		'inspection_rev_number':fields.char('Inspection Rev Number',size=128),
+		'attachment':fields.binary('Add attachment'),
+		'inspection_info':fields.selection([('active','Active'),('inactive','In-Active')],'Status'),
+		'header_id':fields.many2one('product.product','Header  Id',invisible=True),
+	}
+	
+kg_inspect_details()

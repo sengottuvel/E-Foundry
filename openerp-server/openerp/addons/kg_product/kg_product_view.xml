@@ -16,6 +16,10 @@
 			<field name="abc" invisible="1"/>
 			<field name="stockable" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
 		</field>
+		
+		<field name="categ_id" position="after">
+			<field name="hsn_code" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+		</field>
 
 		<field name="variants" position="replace">
 		<field name="variants" invisible="1"/>
@@ -57,6 +61,34 @@
         <field name="sale_ok" invisible="1"/>
         </field>
         
+		<field name="rack_details" position="after">
+				<field name="production_unit_id"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+				<field name="part_name" attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+				<field name="casting_type"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+				<field name="painting"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+				<field name="machining" attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+				<field name="packing"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+				<field name="inspec_detail"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+        </field>
+        
+		<field name="qa_verification" position="after">
+				<field name="customer_id"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+				<field name="metal_id"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+				<field name="re_shot_blasting"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+				<field name="test_bar" attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+				<field name="internal_reference"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+				<field name="sale_price" attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+				<field name="piece_wgt"   attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+        </field>
+        
+		<field name="tolerance_applicable" position="after">
+				<field name="core"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+        </field>
+        
+		<field name="flag_expiry_alert" position="after">
+				<field name="drawing_details" attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
+        </field>
+        
         <field name="user_id" position="after">
 			<field name="conf_user_id" attrs="{'invisible':[('state','in',['draft'])]}"/>
 			<field name="app_user_id" attrs="{'invisible':[('state','in',['draft', 'confirm','reject'])]}"/>
@@ -89,8 +121,8 @@
 		</xpath>
 		
 		<xpath expr = "//page[@string='Internal Notes']" position="before">
-			<page string="Supplier Details">
-				<field name="supplier_details" colspan="4" nolabel="1"  >
+			<page string="Supplier Details" attrs="{'invisible':[('product_type','=','finished_items')]}">
+				<field name="supplier_details" colspan="4" nolabel="1">
 					<tree string = "Supplier Details" editable="bottom">
 						<field name="partner_id"/>
 						<field name="price"/>
@@ -108,6 +140,45 @@
 				</field>					 
 			</page>
 		</xpath>
+		<xpath expr = "//page[@string='Average Price']" position="before">
+			<page string="Core mapping"  attrs="{'invisible':[('core','!=',True)]}">
+				<field name="line_ids_a" editable="bottom">
+					<tree editable="bottom">
+						<field name="core_name" on_change="onchange_core_datails(core_name,core_box_code,type_core,wt_of_cores)"/>
+						<field name="core_box_code" readonly='1'/>
+						<field name="type_core" readonly='1'/>
+						<field name="no_of_cores"/>
+						<field name="wt_of_cores" readonly='1'/>
+					</tree>	
+				</field>					 
+			</page>
+		</xpath>
+		
+		<xpath expr = "//page[@string='Average Price']" position="before">
+			<page string="Drawing Details"  attrs="{'invisible':[('drawing_details','!=',True)]}">
+				<field name="line_ids_b" editable="bottom" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}">
+					<tree editable="bottom">
+						<field name="name"/>
+						<field name="drawing_rev_number"/>
+						<field name="attachment"/>
+						<field name="draw_info"/>
+					</tree>	
+				</field>					 
+			</page>
+		</xpath>		
+		
+		<xpath expr = "//page[@string='Average Price']" position="before">
+			<page string="Inspection Details" attrs="{'invisible':[('inspec_detail','!=','required')]}">
+				<field name="line_ids_c" editable="bottom" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}">
+					<tree editable="bottom">
+						<field name="inspect_number"/>
+						<field name="inspection_rev_number"/>
+						<field name="attachment"/>
+						<field name="inspection_info"/>
+					</tree>	
+				</field>					 
+			</page>
+		</xpath>		
 		
 		<xpath expr = "//page[@string='Coupling Details']" position="before">
 				<page string="Mechanical Seal Details" attrs="{'invisible':[('product_type','not in',('mechanical_seal'))]}">
@@ -167,6 +238,54 @@
 		<field name="view_mode">tree,form,kanban</field>
 		<field name="context">{'default_product_type': 'ms',}</field>
 	</record>
+	
+	
+		<!-- Tree View Start -->
+		
+		<record id="m_tree_v_drawing_details" model="ir.ui.view">
+			<field name="name">Drawing Tree</field>
+			<field name="model">kg.drawing.details</field>
+			<field name="arch" type="xml">
+				<tree toolbar="True" string="Drawing Details" >
+					<field name="header_id"/>
+					<field name="name"/>
+					<field name="drawing_rev_number"/>
+					<field name="attachment"/>
+					<field name="draw_info"/>
+				</tree>
+			</field>
+		</record>
+		
+		
+		
+		<!-- Tree View End -->
+
+
+		
+
+		<!-- Menu Action Start-->		
+		
+		
+		 <record id="mma_drawing_details" model="ir.actions.act_window">
+			<field name="name">Drawing Details</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">kg.drawing.details</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="m_tree_v_drawing_details"/>
+		</record>
+		
+		<!-- Menu Action End-->
+		
+		
+        
+		
+		<!-- Menu Name Start here --> 	
+					
+<!--
+			<menuitem id="mam_drawing_details" parent="kg_production_unit.mpm_production_master" name="Drawing Details" action="mma_drawing_details" sequence="10"/>
+-->
+		
+		<!-- Menu Name End here --> 	
 	
 	
 	    </data>
