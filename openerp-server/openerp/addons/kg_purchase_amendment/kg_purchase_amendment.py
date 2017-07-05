@@ -53,7 +53,7 @@ class kg_purchase_amendment(osv.osv):
 			po_charges=order.value1_amend + order.value2_amend
 			res[order.id]['amount_tax']=cur_obj.round(cr, uid, cur, val)
 			res[order.id]['amount_untaxed']=cur_obj.round(cr, uid, cur, val1)
-			res[order.id]['amount_total']=res[order.id]['amount_untaxed'] + res[order.id]['amount_tax'] + res[order.id]['other_charge']
+			res[order.id]['amount_total']=res[order.id]['amount_untaxed'] + res[order.id]['other_charge']
 			res[order.id]['discount']=cur_obj.round(cr, uid, cur, val3)
 			self.write(cr, uid,order.id, {'other_charge' : po_charges})
 		return res
@@ -710,16 +710,16 @@ class kg_purchase_amendment(osv.osv):
 							_('Please Check GRN!'),
 							_('GRN Already Created For This PO!!'))
 					po_line_obj.write(cr,uid,po_line_id,{'product_id': amend_line.product_id_amend.id})
-				cr.execute(""" select tax_id from amendment_order_tax where amend_line_id = %s """ %(amend_line.id))
-				data = cr.dictfetchall()
-				val = [d['tax_id'] for d in data if 'tax_id' in d]
-				cr.execute(""" delete from purchase_order_taxe where ord_id=%s """ %(po_line_id))
-				for i in range(len(val)):
-					cr.execute(""" INSERT INTO purchase_order_taxe (ord_id,tax_id) VALUES(%s,%s) """ %(po_line_id,val[i]))
-				else:
-					print "NO PO Line Changs"
-				amend_line.write({'line_state': 'done'})
-				po_line_obj.write(cr,uid,po_line_id,{'amend_flag_tax': True})
+			cr.execute(""" select tax_id from amendment_order_tax where amend_line_id = %s """ %(amend_line.id))
+			data = cr.dictfetchall()
+			val = [d['tax_id'] for d in data if 'tax_id' in d]
+			cr.execute(""" delete from purchase_order_taxe where ord_id=%s """ %(po_line_id))
+			for i in range(len(val)):
+				cr.execute(""" INSERT INTO purchase_order_taxe (ord_id,tax_id) VALUES(%s,%s) """ %(po_line_id,val[i]))
+			else:
+				print "NO PO Line Changs"
+			amend_line.write({'line_state': 'done'})
+			po_line_obj.write(cr,uid,po_line_id,{'amend_flag_tax': True})
 		cr.execute(""" select count(id) from kg_purchase_amendment where state = 'approved' and po_id = %s """ %(amend_obj.po_id.id))
 		revision_data = cr.dictfetchall()
 		if revision_data:
