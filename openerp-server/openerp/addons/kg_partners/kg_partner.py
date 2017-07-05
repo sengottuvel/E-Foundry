@@ -114,6 +114,17 @@ class kg_partner(osv.osv):
 	'tin_flag': fields.boolean('TIN Flag'),
 	'mobile_2': fields.char('Mobile2'),
 	'birthdate': fields.datetime('birthdate'),
+	# added by dinesh
+	'sub_contractor': fields.boolean('Sub Contractor'),
+	'type_of_process': fields.selection([('core','Core'),('fettling','Fettling'),('common','Common'),('others','Others')],'Sub-Contract Type'),
+######
+	'alias_name': fields.char('Alias Name',size=128),
+	'sms_applicable': fields.selection([('yes','Yes'),('no','No')],'SMS Applicable'),
+	'region': fields.selection([('north','North'),('east','East'),('west','West'),('south','South')],'Region'),
+	'email_applicable': fields.selection([('yes','Yes'),('no','No')],'Email Applicable'),
+	'max_cust_discount': fields.float('Max.Customer Discount(%)'),
+	'max_spl_discount': fields.float('Max.Special Discount(%)'),
+	'max_deal_discount': fields.float('Max.Dealer Discount(%)'),	
 	
 	}
 	
