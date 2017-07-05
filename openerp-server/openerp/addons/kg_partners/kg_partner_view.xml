@@ -27,9 +27,6 @@
 		<field name="email_applicable" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
         <field name="email" class="email_validation" widget="email" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))],'invisible':[('email_applicable','!=','yes')],'required': [('email_applicable','=', 'yes')]}"/>
 		</field>
-		<field name="name" position="after">
-		<field name="alias_name" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))],'invisible':[('dealer','!=',True),('customer','!=',True)]}"/>
-		</field>
 		
 		<field name="is_company" position="replace">
 		<field name="is_company" invisible="1"/>
