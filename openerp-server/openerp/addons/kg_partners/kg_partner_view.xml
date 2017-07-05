@@ -47,8 +47,8 @@
 		<field name="tan_no" class="aplhanum_expect" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
 		<field name="cst_no" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
 		<field name="vat_no" class="aplhanum_expect" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
-		<field name="cheque_in_favour" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))],'invisible':[('customer','!=',True),('dealer','!=',True)]}"/>
-		<field name="economic_category" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))],'invisible':[('customer','!=',True)]}"/>
+		<field name="cheque_in_favour" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}" invisible='1'/>
+		<field name="economic_category" invisible='1'/>
 		</field>
 		
 		<field name="ean13" position="replace">
@@ -112,7 +112,7 @@
 		</field>		
 		
 		<xpath expr = "//page[@string='Additional Contacts']" position="after">
-				<page string="Delivery Address" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))],'invisible':[('customer','!=',True)]}">
+				<page string="Delivery Address" invisible='1'>
 				<field colspan="4" mode="tree" name="delivery_ids" nolabel="1" widget="one2many_list" >
 					<tree string="Delivery Address"> 
 						<field name="landmark"/>
@@ -144,7 +144,7 @@
 				</xpath>
 				
 		<xpath expr = "//page[@string='Delivery Address']" position="after">
-				<page string="Billing Address" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))],'invisible':[('customer','!=',True),('dealer','!=',True)]}">
+				<page string="Billing Address" invisible='1'>
 				<field colspan="4" mode="tree" name="billing_ids" nolabel="1" widget="one2many_list" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}">
 					<tree string="Billing Address" editable='bottom'> 
 						<field name="landmark"/>
