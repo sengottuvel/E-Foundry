@@ -73,7 +73,6 @@
         
 		<field name="qa_verification" position="after">
 				<field name="customer_id"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
-				<field name="metal_id"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
 				<field name="re_shot_blasting"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
 				<field name="test_bar" attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
 				<field name="internal_reference"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>

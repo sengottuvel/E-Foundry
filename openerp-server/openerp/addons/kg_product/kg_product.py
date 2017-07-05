@@ -70,7 +70,6 @@ class kg_product(osv.osv):
 		'core': fields.boolean('Core'),
 		'drawing_details': fields.boolean('Drawing Details'),
 		'casting_type':fields.selection([('raw','Raw Casting'),('machine','Machine Casting'),('rawpack','Raw Casting with packing'),('rawunpack','Raw Casting Without Packing'),('machinepack','Machine Casting with packing'),('machineunpack','Machine Casting Without Packing')],'Casting Type'),
-		'metal_id': fields.many2one('kg.metal.grade.master', 'Metal Grade', domain="[('state','=','approved')]"),
 		'painting':fields.selection([('required','Required'),('not_required','Not Required')],'Painting Status'),
 		're_shot_blasting':fields.selection([('required','Required'),('not required','Not Required')],'Re-Shot Blasting Status'),	
 		'machining':fields.selection([('required','Required'),('not_required','Not Required')],'Machining'),
