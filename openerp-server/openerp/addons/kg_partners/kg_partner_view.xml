@@ -403,7 +403,9 @@
         Sub cotractor menu
 -->
 
+<!--
 		<menuitem id="kg_sub_contractor_menu" parent="kg_production_unit.mpm_production_master" name="Sub Contractor" action="m_action_v_sub_contractor" sequence="4"/>
+-->
 
 	
 	
