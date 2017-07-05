@@ -814,6 +814,7 @@ class kg_purchase_order_line(osv.osv):
 	'quantity': fields.float('Weight(KGs)'),
 	'indent_state': fields.boolean('Indent state'),
 	'tot_price': fields.float('Total Amount'),
+	'amend_flag_tax': fields.boolean('Amend Flag tax'),
 	
 	}
 	

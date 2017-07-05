@@ -146,7 +146,7 @@
 						<field name="kg_discount_per" readonly="1" invisible="1"/>
 						<field name="kg_discount_per_value" invisible="1"/>
 						<field name="taxes_id" widget="many2many_tags" 
-							domain="[('parent_id','=',False),('type_tax_use','!=','sale')]" invisible="1"/>
+							domain="[('parent_id','=',False),('type_tax_use','!=','sale')]" invisible="0"/>
 						<field name="note" readonly="1"/>
 						<field name="line_bill" invisible="1"/>
 					</group>
@@ -166,7 +166,7 @@
 							on_change="onchange_discount_value_calc(kg_discount_per_amend,product_qty_amend,price_unit_amend)" invisible="1"/>
 						<field name="kg_discount_per_value_amend" invisible="1"/>
 						<field name="taxes_id_amend" widget="many2many_tags" attrs="{'readonly': [('line_bill','=',True)]}"
-							domain="[('parent_id','=',False),('type_tax_use','!=','sale')]" invisible="1"/>
+							domain="[('parent_id','=',False),('type_tax_use','!=','sale')]" invisible="0"/>
 						<field name="note_amend"/>
 					</group>
 					<field name="cancel_flag" invisible="1"/>
