@@ -62,7 +62,6 @@
         </field>
         
 		<field name="rack_details" position="after">
-				<field name="production_unit_id"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
 				<field name="part_name" attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
 				<field name="casting_type"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>
 				<field name="painting"  attrs="{'invisible':[('product_type','!=','finished_items')],'readonly':[('state','in',('approved','reject','cancel'))]}"/>

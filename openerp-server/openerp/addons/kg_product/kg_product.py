@@ -62,7 +62,6 @@ class kg_product(osv.osv):
 		'stockable': fields.selection([('yes','Yes'),('no','No')],'Stockable Item',required=True),
 		'supplier_details': fields.one2many('ch.supplier.details', 'supplier_id', 'Supplier Details'),
 		###########
-		'production_unit_id': fields.many2one('kg.production.unit', 'Production Unit', domain="[('state','=','approved')]"),
 		'customer_id': fields.many2one('res.partner', 'Customer Name',domain="[('customer','=',True),('sup_state','=','approved')]"),
 		'part_name': fields.char('Part Name',size=128),
 		'sale_price': fields.float('Sale Price'),
