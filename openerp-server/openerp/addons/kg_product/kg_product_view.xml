@@ -142,9 +142,7 @@
 			<page string="Core mapping"  attrs="{'invisible':[('core','!=',True)]}">
 				<field name="line_ids_a" editable="bottom">
 					<tree editable="bottom">
-						<field name="core_name" on_change="onchange_core_datails(core_name,core_box_code,type_core,wt_of_cores)"/>
 						<field name="core_box_code" readonly='1'/>
-						<field name="type_core" readonly='1'/>
 						<field name="no_of_cores"/>
 						<field name="wt_of_cores" readonly='1'/>
 					</tree>	

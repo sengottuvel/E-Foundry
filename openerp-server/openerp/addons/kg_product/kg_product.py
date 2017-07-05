@@ -287,9 +287,7 @@ class kg_core_map(osv.osv):
 	
 	
 	_columns = {
-		'core_name':fields.many2one('kg.core.master','Name',required=True,domain="[('state','=','approved')]"),
 	    'core_box_code':fields.char('Code',size=128,required=True),
-		'type_core':fields.many2one('kg.core.type.master','Core Type',required=True,domain="[('state','=','approved')]"),
 		'no_of_cores': fields.float('Number of Cores',required=True),
 		'wt_of_cores':fields.float('Weight of Cores',required=True),
 		'header_id':fields.many2one('product.product','Header id'),
