@@ -20,7 +20,7 @@
 		</field>
 		
 		<field name="name" position="before">
-		<field name="company_type" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))],'invisible':['|',('customer','=',True),('dealer','=',True)]}" required='1'/>
+		<field name="company_type" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}" required='1'/>
 		</field>
 		
 		<field name="website" position="before">
@@ -42,8 +42,8 @@
 		</field>
 		
 		<field name="birthdate" position="replace">
-		<field name="supply_type" attrs = "{'invisible':['|',('customer','=',True),('dealer','=',True)],'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
-		<field name="tds" attrs = "{'required':[('company_type','=','individual')],'invisible':[('customer','=',True)],'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
+		<field name="supply_type" attrs = "{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
+		<field name="tds" attrs = "{'required':[('company_type','=','individual')],'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
 		<field name="tan_no" class="aplhanum_expect" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
 		<field name="cst_no" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
 		<field name="vat_no" class="aplhanum_expect" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
@@ -74,12 +74,7 @@
 		<field name="color" position="replace">
 		<field name="delivery_id" attrs = "{'invisible':[('dealer','=',True)],'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
 		</field>
-		
-
-		
-		<field name="country_id" position="after">
-		<field name="region" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))],'invisible':[('customer','!=',True),('dealer','!=',True)]}"/>
-		</field>
+	
 
 		<field name="function" position="replace">
 		<field name="contact_person" class="aplhanum_expect" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
