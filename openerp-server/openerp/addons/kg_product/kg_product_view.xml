@@ -138,43 +138,9 @@
 				</field>					 
 			</page>
 		</xpath>
-		<xpath expr = "//page[@string='Average Price']" position="before">
-			<page string="Core mapping"  attrs="{'invisible':[('core','!=',True)]}">
-				<field name="line_ids_a" editable="bottom">
-					<tree editable="bottom">
-						<field name="core_box_code" readonly='1'/>
-						<field name="no_of_cores"/>
-						<field name="wt_of_cores" readonly='1'/>
-					</tree>	
-				</field>					 
-			</page>
-		</xpath>
+
 		
-		<xpath expr = "//page[@string='Average Price']" position="before">
-			<page string="Drawing Details"  attrs="{'invisible':[('drawing_details','!=',True)]}">
-				<field name="line_ids_b" editable="bottom" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}">
-					<tree editable="bottom">
-						<field name="name"/>
-						<field name="drawing_rev_number"/>
-						<field name="attachment"/>
-						<field name="draw_info"/>
-					</tree>	
-				</field>					 
-			</page>
-		</xpath>		
 		
-		<xpath expr = "//page[@string='Average Price']" position="before">
-			<page string="Inspection Details" attrs="{'invisible':[('inspec_detail','!=','required')]}">
-				<field name="line_ids_c" editable="bottom" attrs="{'readonly':[('state','in',('approved','reject','cancel'))]}">
-					<tree editable="bottom">
-						<field name="inspect_number"/>
-						<field name="inspection_rev_number"/>
-						<field name="attachment"/>
-						<field name="inspection_info"/>
-					</tree>	
-				</field>					 
-			</page>
-		</xpath>		
 		
 		<xpath expr = "//page[@string='Coupling Details']" position="before">
 				<page string="Mechanical Seal Details" attrs="{'invisible':[('product_type','not in',('mechanical_seal'))]}">

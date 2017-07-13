@@ -283,56 +283,6 @@ class ch_product_yearly_average_price(osv.osv):
 ch_product_yearly_average_price()	
 
 
-class kg_core_map(osv.osv):
-	_name = 'kg.core.map'	
-	
-	
-	_columns = {
-	    'core_box_code':fields.char('Code',size=128,required=True),
-		'no_of_cores': fields.float('Number of Cores',required=True),
-		'wt_of_cores':fields.float('Weight of Cores',required=True),
-		'header_id':fields.many2one('product.product','Header id'),
-	}
-	
-	
-	def onchange_core_datails(self,cr,uid,ids,core_name,core_box_code,type_core,wt_of_cores,context=None):
-		value = {'core_box_code':'','type_core':'','wt_of_cores':''}
-		core_obj        = self.pool.get('kg.core.master')
-		core_browse     = core_obj.browse(cr,uid,core_name)
-		value = {'core_box_code':core_browse.code,'type_core':core_browse.core_type.id,'wt_of_cores':core_browse.weight}
-		return {'value': value}	
-
-kg_core_map()
 
 
-class kg_drawing_details(osv.osv):
-	_name = 'kg.drawing.details'
-	
-	_columns = {
-		'name': fields.char('Drawing Number',size=128,),
-		'drawing_rev_number':fields.char('Drawing Rev Number',size=128),
-		'attachment':fields.binary('Add attachment'),
-		'draw_info':fields.selection([('active','Active'),('inactive','In-Active')],'Status'),
-		'header_id':fields.many2one('product.product','Header Id',invisible=True),
-		
-	}
-	
-	_defaults = {
-	
-		'drawing_rev_number': '0'
-	}
-		
-kg_drawing_details()
 
-class kg_inspect_details(osv.osv):
-	_name = 'kg.inspect.details'
-	
-	_columns = {
-		'inspect_number': fields.char('Inspection Number',size=128),
-		'inspection_rev_number':fields.char('Inspection Rev Number',size=128),
-		'attachment':fields.binary('Add attachment'),
-		'inspection_info':fields.selection([('active','Active'),('inactive','In-Active')],'Status'),
-		'header_id':fields.many2one('product.product','Header  Id',invisible=True),
-	}
-	
-kg_inspect_details()
