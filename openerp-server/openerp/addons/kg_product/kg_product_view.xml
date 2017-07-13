@@ -202,52 +202,13 @@
 	</record>
 	
 	
-		<!-- Tree View Start -->
-		
-		<record id="m_tree_v_drawing_details" model="ir.ui.view">
-			<field name="name">Drawing Tree</field>
-			<field name="model">kg.drawing.details</field>
-			<field name="arch" type="xml">
-				<tree toolbar="True" string="Drawing Details" >
-					<field name="header_id"/>
-					<field name="name"/>
-					<field name="drawing_rev_number"/>
-					<field name="attachment"/>
-					<field name="draw_info"/>
-				</tree>
-			</field>
-		</record>
-		
-		
-		
-		<!-- Tree View End -->
 
 
 		
 
-		<!-- Menu Action Start-->		
-		
-		
-		 <record id="mma_drawing_details" model="ir.actions.act_window">
-			<field name="name">Drawing Details</field>
-			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">kg.drawing.details</field>
-			<field name="view_type">form</field>
-			<field name="view_id" ref="m_tree_v_drawing_details"/>
-		</record>
-		
-		<!-- Menu Action End-->
-		
+
 		
         
-		
-		<!-- Menu Name Start here --> 	
-					
-<!--
-			<menuitem id="mam_drawing_details" parent="kg_production_unit.mpm_production_master" name="Drawing Details" action="mma_drawing_details" sequence="10"/>
--->
-		
-		<!-- Menu Name End here --> 	
 	
 	
 	    </data>
