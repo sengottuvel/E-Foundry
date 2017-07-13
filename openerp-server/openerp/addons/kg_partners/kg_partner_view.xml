@@ -53,7 +53,7 @@
 		<field name="pan_no" class="aplhanum_expect" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
 		<field name="adhar_id" class="aplhanum_expect" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
 		<field name="gst_no" class="aplhanum_expect" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
-		<field name="gstin_no" class="aplhanum_expect" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}"/>
+		<field name="gstin_no" class="aplhanum_expect"/>
 		<field name="user_ref_id" attrs="{'readonly':[('sup_state','in',('approved','reject','cancel'))]}" invisible='1'/>
 		</field>
 		

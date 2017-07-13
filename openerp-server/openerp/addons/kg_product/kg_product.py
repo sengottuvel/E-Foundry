@@ -211,9 +211,10 @@ class kg_product(osv.osv):
 			else:
 				raise osv.except_osv(_('Warning !!'),
 					_('Enter correct values in HSN Code !!'))
-		res = True
+			res = True
 					   
-		return res 
+			return res 		
+		return True
 		
 	_constraints = [
 		
