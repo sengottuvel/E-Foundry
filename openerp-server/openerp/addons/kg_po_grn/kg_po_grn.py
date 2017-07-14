@@ -680,9 +680,10 @@ class kg_po_grn(osv.osv):
 						cr.execute(""" select pending_qty from purchase_order_line where order_id = %s and product_id = %s""" %(i.po_id.id,i.product_id.id))
 						data3 = cr.dictfetchall()
 						if (data3[0]['pending_qty']) - (i.po_grn_qty) < i.rejected_items:
-							raise osv.except_osv(
-								_('Unable to confirm this GRN.'),
-								_('Check the rejection quantity lesser than purchase order pending quantity.'))
+							if i.rejection_flag ==True:
+								raise osv.except_osv(
+									_('Unable to confirm this GRN.'),
+									_('Check the rejection quantity lesser than purchase order pending quantity.'))
 				gate_obj = self.pool.get('kg.gate.pass')
 				gate_obj_line = self.pool.get('kg.gate.pass.line')
 				cr.execute(""" select rejection_flag from po_grn_line where rejection_flag='t' and po_id=%s """ %(grn_entry.po_ids[0].id))
