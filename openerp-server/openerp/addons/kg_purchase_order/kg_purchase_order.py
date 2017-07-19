@@ -691,8 +691,8 @@ class kg_purchase_order_line(osv.osv):
 			
 	def onchange_discount_value_calc(self, cr, uid, ids, kg_discount_per, product_qty, price_unit,tot_price):
 		discount_value_price = 0.00
-		if kg_discount_per > 25:
-			raise osv.except_osv(_(' Warning!!'),_("Discount percentage must be lesser than 25 % !") )			
+		if kg_discount_per > 30:
+			raise osv.except_osv(_(' Warning!!'),_("Discount percentage must be lesser than 30 % !") )			
 		if kg_discount_per:
 			discount_value_price = (tot_price/100.00)*kg_discount_per
 			#~ print"discount_value_pricediscount_value_price",discount_value_price,round(discount_value_price,2)	
