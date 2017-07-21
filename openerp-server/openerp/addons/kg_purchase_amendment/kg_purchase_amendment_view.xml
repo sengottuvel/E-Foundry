@@ -89,6 +89,7 @@
 								<field name="kg_discount_amend" invisible="1"/>
 								<field name="taxes_id_amend" widget="many2many_tags" invisible="1"/>
 								<field name="price_subtotal"/>
+								<field name="invoice_states"/>
 							</tree>
                    </field>				
 				</page>		
@@ -119,7 +120,11 @@
 					</group>
 				</page>
 				</notebook>		
-				
+                    <group class="oe_subtotal_footer oe_right">
+						<div class="oe_subtotal_footer_separator oe_inline">
+						        <button name="button_dummy" states="draft" string="Update" type="object" class="oe_edit_only"/>						
+						</div>
+					</group>				
 				</form>
 			</field>
 		</record>
@@ -151,23 +156,24 @@
 						<field name="line_bill" invisible="1"/>
 					</group>
 					<group>
+						<field name="invoice_states" invisible='1'/>
 						<field name="product_id_amend" readonly='1'/>
 						<field name="product_uom" invisible='1'/>
 						<field name="pi_line_id"/>
-						<field name="product_qty_amend"
+						<field name="product_qty_amend" attrs="{'readonly': [('invoice_states','in',('grn','invoiced'))]}"
 							on_change="onchange_qty(product_qty,product_qty_amend,pending_qty,pending_qty_amend)" required="1"/>
-						<field name="brand_id_amend"/>	
+						<field name="brand_id_amend" attrs="{'readonly': [('invoice_states','in',('grn','invoiced'))]}"/>	
 						<field name="pending_qty_amend" invisible="1"/>
-						<field name="price_unit_amend" attrs="{'readonly': [('line_bill','=',True)]}"
+						<field name="price_unit_amend" attrs="{'readonly': [('invoice_states','in',('grn','invoiced'))]}"
 							on_change="onchange_price_unit(price_unit_amend,kg_discount_per_amend,kg_discount_per_value_amend,product_qty_amend)" />
 						<field name="kg_discount_amend" attrs="{'readonly': [('line_bill','=',True)]}" on_change="onchange_disc_amt(kg_discount_amend,product_qty_amend,price_unit_amend,kg_disc_amt_per_amend)" invisible="1"/>
 						<field name="kg_disc_amt_per_amend" invisible="1"/>
 						<field name="kg_discount_per_amend" attrs="{'readonly': [('line_bill','=',True)]}"
 							on_change="onchange_discount_value_calc(kg_discount_per_amend,product_qty_amend,price_unit_amend)" invisible="1"/>
 						<field name="kg_discount_per_value_amend" invisible="1"/>
-						<field name="taxes_id_amend" widget="many2many_tags" attrs="{'readonly': [('line_bill','=',True)]}"
+						<field name="taxes_id_amend" widget="many2many_tags" attrs="{'readonly': [('invoice_states','in',('grn','invoiced'))]}"
 							domain="[('parent_id','=',False),('type_tax_use','!=','sale')]" invisible="0"/>
-						<field name="note_amend"/>
+						<field name="note_amend" attrs="{'readonly': [('invoice_states','in',('grn','invoiced'))]}"/>
 					</group>
 					<field name="cancel_flag" invisible="1"/>
 					<field name="qty_flag" invisible="1"/>

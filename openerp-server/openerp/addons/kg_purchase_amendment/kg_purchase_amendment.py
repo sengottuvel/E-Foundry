@@ -187,6 +187,9 @@ class kg_purchase_amendment(osv.osv):
 		else:
 			print "No Change"
 			
+	def button_dummy(self, cr, uid, ids, context=None):			
+		return True			
+			
 	def unlink(self, cr, uid, ids, context=None):
 		if context is None:
 			context = {}
@@ -203,7 +206,6 @@ class kg_purchase_amendment(osv.osv):
 		return True
 	
 	def _prepare_amend_line(self, cr, uid, po_order, order_line, amend_id, context=None):
-
 		return {
 		
 			'order_id':po_order.id,
@@ -234,13 +236,25 @@ class kg_purchase_amendment(osv.osv):
 			'line_bill':order_line.line_bill,
 			'product_id_amend': order_line.product_id.id,
 			'pi_line_id': order_line.pi_line_id.id,
+			'invoice_states': order_line.invoice_states,
 			
 		}
 	
 	def make_amend(self,cr,uid,ids,amendment_id=False,context={}):
-		
 		po_id = False
 		obj = self.browse(cr,uid,ids[0])
+		cr.execute(""" select id from kg_po_grn where state in ('draft','confirmed') and order_no = '%s' """  %(obj.po_id.name))
+		data = cr.dictfetchall()
+		if data:
+			raise osv.except_osv(
+				_('Warning'),
+				_('Please approve the already created GRN for this Purchase Order to make amendment!')) 
+		cr.execute(""" select * from purchase_order_line where pending_qty > 0 and order_id= %s """  %(obj.po_id.id))
+		data1 = cr.dictfetchall()
+		if not data1:
+			raise osv.except_osv(
+				_('Warning'),
+				_('You cannot allowed to make amendment for this PO!')) 
 		po_obj=self.pool.get('purchase.order')
 		amend_obj=self.pool.get('kg.purchase.amendment')
 		amend_po_id = amend_obj.browse(cr,uid,obj.po_id.id)
@@ -614,11 +628,11 @@ class kg_purchase_amendment(osv.osv):
 								})
 				
 				if amend_line.price_unit != amend_line.price_unit_amend:
-					pinv_obj = self.pool.get('kg.purchase.invoice').search(cr,uid,[('po_so_name','=',amend_obj.po_id.name),('state','=','approved')])
-					if pinv_obj:
-						raise osv.except_osv(
-							_('Please Check Invoice!'),
-							_('Invoice Already Created For This PO!!'))
+					#~ pinv_obj = self.pool.get('kg.purchase.invoice').search(cr,uid,[('po_so_name','=',amend_obj.po_id.name),('state','=','approved')])
+					#~ if pinv_obj:
+						#~ raise osv.except_osv(
+							#~ _('Please Check Invoice!'),
+							#~ _('Invoice Already Created For This PO!!'))
 					po_line_obj.write(cr,uid,po_line_id,{
 						'price_unit': amend_line.price_unit_amend})
 				if amend_line.brand_id.id != amend_line.brand_id_amend.id:
@@ -682,11 +696,12 @@ class kg_purchase_amendment(osv.osv):
 								})
 				
 				if amend_line.price_unit != amend_line.price_unit_amend:
-					pinv_obj = self.pool.get('kg.purchase.invoice').search(cr,uid,[('po_so_name','=',amend_obj.po_id.name),('state','=','approved')])
-					if pinv_obj:
-						raise osv.except_osv(
-							_('Please Check Invoice!'),
-							_('Invoice Already Created For This PO!!'))
+					#~ pinv_obj = self.pool.get('kg.purchase.invoice').search(cr,uid,[('po_so_name','=',amend_obj.po_id.name),('state','=','approved')])
+					#~ print "================================",pinv_obj
+					#~ if pinv_obj:
+						#~ raise osv.except_osv(
+							#~ _('Please Check Invoice!'),
+							#~ _('Invoice Already Created For This PO!!'))
 					
 					po_line_obj.write(cr,uid,po_line_id,{
 						'price_unit': amend_line.price_unit_amend})
@@ -840,6 +855,7 @@ class kg_purchase_amendment_line(osv.osv):
 	
 	# Amendment Fields:
 	
+	'invoice_states': fields.selection([('invoiced', 'Invoiced'),('grn', 'GRN'),('pending','Pending')], 'Invoice Status'),
 	'product_id_amend': fields.many2one('product.product','Amend Product',domain="[('state','=','approved')]"),
 	'kg_discount_amend': fields.float('Amend Discount Amount', digits_compute= dp.get_precision('Discount')),
 	'price_unit_amend': fields.float('Amend Price', digits_compute= dp.get_precision('Product Price')),
@@ -862,6 +878,7 @@ class kg_purchase_amendment_line(osv.osv):
 	
 	_defaults = {
 	
+		'invoice_states': 'pending',
 		'line_state': 'draft',
 		'qty_flag' :True,
 		}
