@@ -672,7 +672,12 @@ class kg_po_grn(osv.osv):
 		
 	def kg_po_grn_approve(self, cr, uid, ids,context=None):
 		user_id = self.pool.get('res.users').browse(cr, uid, uid)
-		grn_entry = self.browse(cr, uid, ids[0])			
+		grn_entry = self.browse(cr, uid, ids[0])		
+		if grn_entry.po_ids:
+			if grn_entry.line_ids:
+				for j in grn_entry.line_ids:
+					if (j.po_pending_qty - j.po_grn_qty) ==0:
+						cr.execute(""" update purchase_order_line set invoice_states ='grn' where id = %s""" %(j.po_line_id.id))
 		if grn_entry.state =='confirmed':
 			if grn_entry.grn_type == 'from_po':
 				if grn_entry.line_ids:
@@ -820,6 +825,8 @@ class kg_po_grn(osv.osv):
 							po_line_qty = line.po_qty
 							po_line_pending_qty = pending_qty - grn_qty
 							rec_qty += line.po_grn_qty
+							if po_line_pending_qty <0:
+								po_line_pending_qty = 0
 							po_line_obj.write(cr, uid, [line.po_line_id.id],
 									{
 									'pending_qty' : po_line_pending_qty,
